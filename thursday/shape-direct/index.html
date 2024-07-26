@@ -1,0 +1,1585 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta name="theme-color" content="#2C3EA6" />
+    <!-- Primary Meta Tags -->
+    <title>Lesson 4 - Geometry Labs - Shape & Direction - Kids Learn N' Fun 2022</title>
+    <meta name="title" content="Geometry Labs">
+    <meta name="description" content="Geometry Labs — Show Off Your Math Skills by Conquering 3rd Grade Geometry!">
+    <meta name="keywords" content="beamport, xr, vr, ar, virtual, reality, beamport vr, beamport ar, beamport xr, virtual reality, virtual reality kenya, virtual reality africa, eduvr, learnxr, learnvr, learnar, learnxr africa, learnxr kenya, virtual reality kids, augmented reality kids ">
+    <meta name="author" content="Geometry Labs">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://beamport.net/learnxr/">
+    <meta property="og:title" content="Geometry Labs">
+    <meta property="og:description" content="Geometry Labs — Show Off Your Math Skills by Conquering 3rd Grade Geometry!">
+    <meta property="og:image" content="https://beamport.net/learnxr/img/geometry-labs.jpg">
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://beamport.net/learnxr/">
+    <meta property="twitter:title" content="Geometry Labs">
+    <meta property="twitter:description" content="Geometry Labs — Show Off Your Math Skills by Conquering 3rd Grade Geometry!">
+    <meta property="twitter:image" content="https://beamport.net/learnxr/img/geometry-labs.jpg">
+    <!--  -->
+    <link href="/learnxr/css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="/learnxr/img/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+    <link href="/learnxr/img/favicon.ico" rel="apple-touch-icon"/>
+    <!-- Aframe -->
+    <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="js/aframe-gui.js"></script>
+    <!-- <script src="js/gui-env.js"></script> -->
+    <script>
+      AFRAME.registerComponent('exit-ar-button', {
+        schema: {
+            element: {type: 'selector'}
+        },
+        init: function () {
+          this.data.element.addEventListener('click', ev => {
+              this.el.sceneEl.renderer.xr.getSession().end();
+          });
+        }
+      });
+    </script>
+    <script>
+      //Hide in AR
+      AFRAME.registerComponent('hide-in-ar-mode', {
+        init: function () {
+          this.el.sceneEl.addEventListener('enter-vr', (ev) => {
+          if (this.el.sceneEl.is('ar-mode')) {
+            this.el.setAttribute('visible', false);
+          }
+          });
+          this.el.sceneEl.addEventListener('exit-vr', (ev) => {
+          this.el.setAttribute('visible', true);
+          });
+        }
+      })
+
+      //Change Cursor State in AR
+      AFRAME.registerComponent('cursor-ar-mode', {
+        init: function () {
+          this.el.sceneEl.addEventListener('enter-vr', (ev) => {
+          if (this.el.sceneEl.is('ar-mode')) {
+            this.el.setAttribute('raycaster', 'objects: [gui-interactable]'); //new ar state
+            this.el.setAttribute('visible', true);
+          }
+          });
+          this.el.sceneEl.addEventListener('exit-vr', (ev) => {
+          this.el.setAttribute('raycaster', 'objects: [none]'); //original state
+          this.el.setAttribute('visible', false);
+          });
+        }
+      }) 
+    </script>
+    <script>
+      //Change Position in AR
+      AFRAME.registerComponent('flex-panel-in-ar', {
+        init: function () {
+          this.el.sceneEl.addEventListener('enter-vr', (ev) => {
+          if (this.el.sceneEl.is('ar-mode')) {
+            this.el.setAttribute('position', '0.0 0.0 -5.5'); //new ar position
+          }
+          });
+          this.el.sceneEl.addEventListener('exit-vr', (ev) => {
+          this.el.setAttribute('position', '0.0 0.0 0.0'); //original position
+          });
+        }
+      })
+      
+      //Change Position in AR
+      AFRAME.registerComponent('label-left-in-ar', {
+        init: function () {
+          this.el.sceneEl.addEventListener('enter-vr', (ev) => {
+          if (this.el.sceneEl.is('ar-mode')) {
+            this.el.setAttribute('position', '-7.0 -2.0 6.28'); //new ar position
+          }
+          });
+          this.el.sceneEl.addEventListener('exit-vr', (ev) => {
+          this.el.setAttribute('position', '-4.125 -2.0 6.28'); //original position
+          });
+        }
+      })
+      
+      //Change Position in AR
+      AFRAME.registerComponent('label-right-in-ar', {
+        init: function () {
+          this.el.sceneEl.addEventListener('enter-vr', (ev) => {
+          if (this.el.sceneEl.is('ar-mode')) {
+            this.el.setAttribute('position', '7.0 -2.0 6.28'); //new ar position
+          }
+          });
+          this.el.sceneEl.addEventListener('exit-vr', (ev) => {
+          this.el.setAttribute('position', '4.125 -2.0 6.28'); //original position
+          });
+        }
+      })
+      
+      //Change Position in AR
+      AFRAME.registerComponent('tutorial-box-in-ar', {
+        init: function () {
+          this.el.sceneEl.addEventListener('enter-vr', (ev) => {
+          if (this.el.sceneEl.is('ar-mode')) {
+            this.el.setAttribute('position', '-5.24 0.508 0.65'); //new ar position
+          }
+          });
+          this.el.sceneEl.addEventListener('exit-vr', (ev) => {
+          this.el.setAttribute('position', '-2.85 0.508 0.78'); //original position
+          });
+        }
+      })
+      
+      //Change Position in AR
+      AFRAME.registerComponent('tutorial-cone-in-ar', {
+        init: function () {
+          this.el.sceneEl.addEventListener('enter-vr', (ev) => {
+          if (this.el.sceneEl.is('ar-mode')) {
+            this.el.setAttribute('position', '5.633 0.810 0.40'); //new ar position
+          }
+          });
+          this.el.sceneEl.addEventListener('exit-vr', (ev) => {
+          this.el.setAttribute('position', '3.033 0.810 0.80'); //original position
+          });
+        }
+      })
+      
+      // Simple Score Function
+      var clicks = 0;
+
+      function scorePoints() {
+        clicks += 10;
+        //document.getElementById("total-scores").innerHTML = clicks;
+        document.getElementById("scores").innerHTML = clicks;
+        document.getElementById("scores-in-xr").innerHTML = clicks;
+        console.log(
+        "%c Points Scored +10",
+        'background: #2C3EA8; color: #fff; font-size:250%; font-family: Slackey, sans-serif; display: block; padding:50px; padding-right: 50px;')
+      }
+
+      function scorePointsReset() {
+        clicks *= 0;
+        //document.getElementById("total-scores").innerHTML = clicks;
+        document.getElementById("scores").innerHTML = clicks;
+        document.getElementById("scores-in-xr").innerHTML = clicks;
+        console.log(
+        "%c Refreshed Game",
+        'background: #A6CE39; color: #fff; display: block; padding:5px; padding-right: 10px;')
+      }
+      
+      // Hide Object Function 
+      AFRAME.registerComponent('hideobject', {
+        schema: {
+          'target': {type: 'selector'},
+        },
+        init: function () {
+          var show=false;    
+          this.el.addEventListener("click",()=>{
+            if(show){
+              this.data.target.setAttribute("visible","true");
+              this.el.querySelector("a-gui-button").innerHTML="Hide Object";
+            }else{
+              this.data.target.setAttribute("visible","false");
+              this.el.querySelector("a-gui-button").innerHTML="Show Object";
+            }
+            show=!show;
+          });
+        }
+      });
+      
+      // Show Object Function
+      AFRAME.registerComponent('showobject', {
+        schema: {
+          'target': {type: 'selector'},
+        },
+        init: function () {
+          var show=false;    
+          this.el.addEventListener("click",()=>{
+            if(show){
+              this.data.target.setAttribute("visible","false");
+              this.el.querySelector("a-gui-button").innerHTML="Show Object";
+            }else{
+              this.data.target.setAttribute("visible","true");
+              this.el.querySelector("a-gui-button").innerHTML="Hide Object";
+            }
+            show=!show;
+          });
+        }
+      });
+      
+      // Hide Slide Function 
+      AFRAME.registerComponent('hideslide', {
+        schema: {
+          'target': {type: 'selector'},
+        },
+        init: function () {
+          var show=false;    
+          this.el.addEventListener("click",()=>{
+            if(show){
+              this.data.target.setAttribute("visible","true");
+              this.data.target.setAttribute("position","0.000 0.125 0.000");
+              this.el.querySelector("a-gui-button").innerHTML="Hide Slide";
+            }else{
+              this.data.target.setAttribute("visible","false");
+              this.data.target.setAttribute("position","javascript:void(0);");
+              this.el.querySelector("a-gui-button").innerHTML="Show Slide";
+            }
+            show=!show;
+          });
+        }
+      });
+      
+      // Show Slide Function
+      AFRAME.registerComponent('showslide', {
+        schema: {
+          'target': {type: 'selector'},
+        },
+        init: function () {
+          var show=false;    
+          this.el.addEventListener("click",()=>{
+            if(show){
+              this.data.target.setAttribute("visible","false");
+              this.data.target.setAttribute("position","javascript:void(0);");
+              this.el.querySelector("a-gui-button").innerHTML="Show Slide";
+            }else{
+              this.data.target.setAttribute("visible","true");
+              this.data.target.setAttribute("position","0.000 0.125 0.000");
+              this.el.querySelector("a-gui-button").innerHTML="Hide Slide";
+            }
+            show=!show;
+          });
+        }
+      });
+      
+      // Move Left Function
+      AFRAME.registerComponent('moveleft', {
+        schema: {
+          'target': {type: 'selector'},
+        },
+        init: function () {
+          var show=false;    
+          this.el.addEventListener("click",()=>{
+            if(show){
+              this.data.target.setAttribute("position","0.070 0.996 -3.451");
+              this.el.querySelector("a-gui-button").innerHTML="Move Origin";
+            }else{
+              this.data.target.setAttribute("position","-3.20 0.575 0.86");
+              this.el.querySelector("a-gui-button").innerHTML="Move Left";
+            }
+            show=!show;
+          });
+        }
+      });
+      
+      // Move Right Function
+      AFRAME.registerComponent('moveright', {
+        schema: {
+          'target': {type: 'selector'},
+        },
+        init: function () {
+          var show=false;    
+          this.el.addEventListener("click",()=>{
+            if(show){
+              this.data.target.setAttribute("position","0.07 -2.5 2.125");
+              this.el.querySelector("a-gui-button").innerHTML="Move Origin";
+            }else{
+              this.data.target.setAttribute("position","3.20 0.575 0.86");
+              this.el.querySelector("a-gui-button").innerHTML="Move Right";
+            }
+            show=!show;
+          });
+        }
+      });
+      
+        // Hide Box_1 Function 
+        AFRAME.registerComponent('hide-box-1', {
+          schema: {
+            'target': {type: 'selector'},
+          },
+          init: function () {
+            var show=false;    
+            this.el.addEventListener("click",()=>{
+              if(show){
+                this.data.target.setAttribute("visible","true");
+                this.el.querySelector("a-gui-button").innerHTML="Hide Box1";
+              }else{
+                this.data.target.setAttribute("visible","false");
+                this.el.querySelector("a-gui-button").innerHTML="Show Box1";
+              }
+              show=!show;
+            });
+          }
+        });
+      
+        // Show Box_1 Function
+        AFRAME.registerComponent('show-box-1', {
+          schema: {
+            'target': {type: 'selector'},
+          },
+          init: function () {
+            var show=false;    
+            this.el.addEventListener("click",()=>{
+              if(show){
+                this.data.target.setAttribute("visible","false");
+                this.el.querySelector("a-gui-button").innerHTML="Show Box1";
+              }else{
+                this.data.target.setAttribute("visible","true");
+                this.el.querySelector("a-gui-button").innerHTML="Hide Box1";
+              }
+              show=!show;
+            });
+          }
+        });
+      
+        // Hide Box_2 Function 
+        AFRAME.registerComponent('hide-box-2', {
+          schema: {
+            'target': {type: 'selector'},
+          },
+          init: function () {
+            var show=false;    
+            this.el.addEventListener("click",()=>{
+              if(show){
+                this.data.target.setAttribute("visible","true");
+                this.el.querySelector("a-gui-button").innerHTML="Hide Box2";
+              }else{
+                this.data.target.setAttribute("visible","false");
+                this.el.querySelector("a-gui-button").innerHTML="Show Box2";
+              }
+              show=!show;
+            });
+          }
+        });
+      
+        // Show Box_1 Function
+        AFRAME.registerComponent('show-box-2', {
+          schema: {
+            'target': {type: 'selector'},
+          },
+          init: function () {
+            var show=false;    
+            this.el.addEventListener("click",()=>{
+              if(show){
+                this.data.target.setAttribute("visible","false");
+                this.el.querySelector("a-gui-button").innerHTML="Show Box2";
+              }else{
+                this.data.target.setAttribute("visible","true");
+                this.el.querySelector("a-gui-button").innerHTML="Hide Box2";
+              }
+              show=!show;
+            });
+          }
+        });
+      
+        // Hide Cone_1 Function 
+        AFRAME.registerComponent('hide-cone-1', {
+          schema: {
+            'target': {type: 'selector'},
+          },
+          init: function () {
+            var show=false;    
+            this.el.addEventListener("click",()=>{
+              if(show){
+                this.data.target.setAttribute("visible","true");
+                this.el.querySelector("a-gui-button").innerHTML="Hide Cone1";
+              }else{
+                this.data.target.setAttribute("visible","false");
+                this.el.querySelector("a-gui-button").innerHTML="Show Cone1";
+              }
+              show=!show;
+            });
+          }
+        });
+      
+        // Show Cone_1 Function
+        AFRAME.registerComponent('show-cone-1', {
+          schema: {
+            'target': {type: 'selector'},
+          },
+          init: function () {
+            var show=false;    
+            this.el.addEventListener("click",()=>{
+              if(show){
+                this.data.target.setAttribute("visible","false");
+                this.el.querySelector("a-gui-button").innerHTML="Show Cone1";
+              }else{
+                this.data.target.setAttribute("visible","true");
+                this.el.querySelector("a-gui-button").innerHTML="Hide Cone1";
+              }
+              show=!show;
+            });
+          }
+        });
+      
+        // Hide Cone_1 Function 
+        AFRAME.registerComponent('hide-cone-2', {
+          schema: {
+            'target': {type: 'selector'},
+          },
+          init: function () {
+            var show=false;    
+            this.el.addEventListener("click",()=>{
+              if(show){
+                this.data.target.setAttribute("visible","true");
+                this.el.querySelector("a-gui-button").innerHTML="Hide Cone2";
+              }else{
+                this.data.target.setAttribute("visible","false");
+                this.el.querySelector("a-gui-button").innerHTML="Show Cone2";
+              }
+              show=!show;
+            });
+          }
+        });
+      
+        // Show Cone_1 Function
+        AFRAME.registerComponent('show-cone-2', {
+          schema: {
+            'target': {type: 'selector'},
+          },
+          init: function () {
+            var show=false;    
+            this.el.addEventListener("click",()=>{
+              if(show){
+                this.data.target.setAttribute("visible","false");
+                this.el.querySelector("a-gui-button").innerHTML="Show Cone2";
+              }else{
+                this.data.target.setAttribute("visible","true");
+                this.el.querySelector("a-gui-button").innerHTML="Hide Cone2";
+              }
+              show=!show;
+            });
+          }
+        });
+      
+        // Hide Ring_Center Function 
+        AFRAME.registerComponent('hide-ring-center', {
+          schema: {
+            'target': {type: 'selector'},
+          },
+          init: function () {
+            var show=false;    
+            this.el.addEventListener("click",()=>{
+              if(show){
+                this.data.target.setAttribute("visible","true");
+                this.el.querySelector("a-gui-button").innerHTML="Hide Ring Center";
+              }else{
+                this.data.target.setAttribute("visible","false");
+                this.el.querySelector("a-gui-button").innerHTML="Show Ring Center";
+              }
+              show=!show;
+            });
+          }
+        });
+      
+        // Show Ring_Center Function
+        AFRAME.registerComponent('show-ring-center', {
+          schema: {
+            'target': {type: 'selector'},
+          },
+          init: function () {
+            var show=false;    
+            this.el.addEventListener("click",()=>{
+              if(show){
+                this.data.target.setAttribute("visible","false");
+                this.el.querySelector("a-gui-button").innerHTML="Show Ring Center";
+              }else{
+                this.data.target.setAttribute("visible","true");
+                this.el.querySelector("a-gui-button").innerHTML="Hide Ring Center";
+              }
+              show=!show;
+            });
+          }
+        });
+      
+        // Hide Ring_Right Function 
+        AFRAME.registerComponent('hide-ring-right', {
+          schema: {
+            'target': {type: 'selector'},
+          },
+          init: function () {
+            var show=false;    
+            this.el.addEventListener("click",()=>{
+              if(show){
+                this.data.target.setAttribute("visible","true");
+                this.el.querySelector("a-gui-button").innerHTML="Hide Ring Right";
+              }else{
+                this.data.target.setAttribute("visible","false");
+                this.el.querySelector("a-gui-button").innerHTML="Show Ring Right";
+              }
+              show=!show;
+            });
+          }
+        });
+      
+        // Show Ring_Right Function
+        AFRAME.registerComponent('show-ring-right', {
+          schema: {
+            'target': {type: 'selector'},
+          },
+          init: function () {
+            var show=false;    
+            this.el.addEventListener("click",()=>{
+              if(show){
+                this.data.target.setAttribute("visible","false");
+                this.el.querySelector("a-gui-button").innerHTML="Show Ring Right";
+              }else{
+                this.data.target.setAttribute("visible","true");
+                this.el.querySelector("a-gui-button").innerHTML="Hide Ring Right";
+              }
+              show=!show;
+            });
+          }
+        });
+      
+        // Hide Ring Left Function 
+        AFRAME.registerComponent('hide-ring-left', {
+          schema: {
+            'target': {type: 'selector'},
+          },
+          init: function () {
+            var show=false;    
+            this.el.addEventListener("click",()=>{
+              if(show){
+                this.data.target.setAttribute("visible","true");
+                this.el.querySelector("a-gui-button").innerHTML="Hide Ring Left";
+              }else{
+                this.data.target.setAttribute("visible","false");
+                this.el.querySelector("a-gui-button").innerHTML="Show Ring Left";
+              }
+              show=!show;
+            });
+          }
+        });
+      
+        // Show Ring Left Function
+        AFRAME.registerComponent('show-ring-left', {
+          schema: {
+            'target': {type: 'selector'},
+          },
+          init: function () {
+            var show=false;    
+            this.el.addEventListener("click",()=>{
+              if(show){
+                this.data.target.setAttribute("visible","false");
+                this.el.querySelector("a-gui-button").innerHTML="Show Ring Left";
+              }else{
+                this.data.target.setAttribute("visible","true");
+                this.el.querySelector("a-gui-button").innerHTML="Hide Ring Left";
+              }
+              show=!show;
+            });
+          }
+        });
+    </script>
+    <style>
+      ::selection {
+        background: #F68B1E;
+        color: #FFF;
+      }
+
+      ::-moz-selection {
+        background: #F68B1E;
+        color: #FFF;
+      }
+
+      @font-face {
+        font-family: Slackey;
+        src: url("/learnxr/font/Slackey.ttf") format('truetype');
+        font-weight: 400;
+        font-style: normal
+      }
+
+      body {
+        font-family: Slackey, sans-serif;
+      }
+
+      #foreground {
+        width: 100%;
+        height: 100%;
+        display: block;
+        z-index: 999;
+        position: fixed;
+        background: #1877BE;
+      }
+
+      .hsk2020-foreground-wrapper {
+        position: relative;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
+        text-align: center
+      }
+      .scores {
+        background-color: #C13043;
+        padding: 5px;
+        font-family: 'Slackey', sans-serif;
+        text-align: center;
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+      }
+      #scoreboard {
+        position: absolute;
+        left: 25px;
+        top: 40px;
+        border-radius: 20px;
+        background-color: #EF465C;
+        color: white;
+        border: 3px solid #FFF;
+        padding: 8px 10px;
+        font-weight: bold;
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+      }
+      .scoreboard {
+        z-index: 10;
+        position: absolute;
+        left: 20px;
+        top: 20px;
+        border-radius: 20px;
+        background-color: #EF465C;
+        color: white;
+        border: 3px solid #FFF;
+        padding: 8px 10px;
+        font-weight: bold;
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+      }
+      .back {
+          z-index: 10;
+          text-align: center;
+          position: absolute;
+          left: 22px;
+          top: 140px;
+          border-radius: 16px;
+          background-color: #A6CE39;
+          color: white;
+          border: 3px solid #FFF;
+          padding-top: 10px;
+          padding-bottom: 5px;
+          font-weight: bold;
+          font-family: 'Slackey', sans-serif;
+      }
+      .ar-vr {
+          position: absolute;
+          right: 30px;
+          bottom: 40px;
+          border-radius: 20px;
+          background-color: #71528E;
+          color: white;
+          z-index: 10;
+          border: 3px solid #FFF;
+          padding: 12px 16px;
+          font-weight: bold;
+          font-family: 'Slackey', sans-serif; 
+          cursor: pointer;
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+      }
+      /* By default, hide the DOM Overlay element. */
+      #overlay {
+          display: none;
+      }
+      /* Show the DOM Overlay element while active (:xr-overlay pseudoclass) */
+      #overlay:xr-overlay {
+          display: initial;
+      }
+      #exit-ar {
+          position: absolute;
+          left: 25px;
+          bottom: 40px;
+          border-radius: 20px;
+          background-color: #71528E;
+          color: white;
+          border: 3px solid #FFF;
+          padding: 12px 16px;
+          font-weight: bold;
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+      }
+    </style>
+  </head>
+  <body>
+    <div id="foreground" class="hsk2020-foreground-wrapper">
+      <div class="vtl-body">
+        <div class="vtl-header">
+          <br><br>
+          <br><br>
+          <h1 class="vtl-page-title">Are You Ready?</h1>
+          <div class="vtl-lp">
+            <br>
+          </div>
+        </div>
+      </div>
+      <button class="hsk2020-button-2 intro w-button" onmouseenter="hoversound()" onclick="clicksound(); bckgrndmusic(); setTimeout(turnleft, 6000); setTimeout(turnright, 12000);"  style="transform: scale(0.65);">
+      Yes Let's Go!
+      </button>
+    </div>
+    <!-- Score & Exit AR Button -->
+    <span class="scoreboard">Score<br>
+      <h2 class="scores" id="scores">
+          0
+      </h2>
+    </span>
+    <button class="back" onclick="history.go(-1)">
+      <?xml version="1.0" encoding="utf-8"?>
+      <svg width="24px" height="16.398193px" viewBox="0 0 24 16.398193" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+        <path d="M24 3.61218C24 6.50293 24 9.39343 24 12.2841C23.8564 12.4816 23.6611 12.5909 23.4141 12.6122C19.3008 12.0562 15.1836 11.5327 11.0625 11.0419C11.4082 12.6201 11.7207 14.2061 12 15.7997C11.9883 16.2566 11.7539 16.4519 11.2969 16.3856C7.71191 13.9135 4.13379 11.4291 0.5625 8.9325C0.34375 8.80029 0.15625 8.63623 0 8.44031C0 8.28418 0 8.12781 0 7.97156C0.116211 7.81677 0.256836 7.68384 0.421875 7.57312C4.03125 5.0575 7.64063 2.54199 11.25 0.0262451C11.6855 -0.0690918 11.9512 0.0949707 12.0469 0.518433C11.7285 2.11182 11.416 3.70557 11.1094 5.29968C15.1279 4.65601 19.1436 3.99194 23.1563 3.3075C23.5215 3.20068 23.8027 3.30212 24 3.61218L24 3.61218Z" id="Shape-Copy-3" fill="#FFFFFF" fill-opacity="0.991" fill-rule="evenodd" stroke="none" />
+      </svg>
+    </button>
+    <div id="overlay">
+      <span id="scoreboard">Score<br>
+        <h2 class="scores" id="scores-in-xr">
+          0
+        </h2>
+      </span>
+      <button id="exit-ar">Exit AR</button>
+    </div>
+    <!-- Main Scene -->
+    <a-scene 
+        gui-env 
+        webxr="optionalFeatures: dom-overlay; overlayElement: #overlay"
+        vr-mode-ui="enterVRButton: #myEnterVRButton; enterARButton: #myEnterARButton"
+        loading-screen="dotsColor: #FFF; backgroundColor: #EF465C">
+      <a id="myEnterVRButton" style="display: none;" class="ar-vr">VR mode</a>
+      <a id="myEnterARButton" class="ar-vr">Enable AR</a>
+      <a-entity exit-ar-button="element: #exit-ar"></a-entity>
+      <!-- Textures -->
+      <a-assets>
+        <a-asset-item id="iconfontsolid" src="assets/fonts/fa-solid-900.ttf"></a-asset-item>
+        <a-asset-item id="iconfontbrand" src="assets/fonts/fa-regular-400.ttf"></a-asset-item>
+        <a-asset-item id="iconfontbrand" src="assets/fonts/fa-brands-400.ttf"></a-asset-item>
+        <img id="logo" src="/learnxr/img/Logo_Simple-04.png">
+      </a-assets>
+      <a-sky color="#59ADFF" hide-in-ar-mode></a-sky>
+      <!-- Shapes -->
+      <!-- Tutorial -->
+      <a-box color="#FA003F" scale="0.85 0.85 0.85" position="-2.85 0.508 0.78" id="box-1" visible="true" animation="property: rotation; to: 0 360 0; loop: true; dur: 5000" tutorial-box-in-ar></a-box>
+      <a-cone color="#A6CE39" scale="0.75 1.0 0.75" position="3.033 0.810 0.80" id="cone-1" visible="true" rotation="0 90 0" animation="property: rotation; to: 360 0 0; loop: true; dur: 7500" tutorial-cone-in-ar></a-cone>
+      <!--  -->
+      <!-- Q:1 -->
+      <a-box color="#2568EF" scale="0.85 0.85 0.85" position="0.00 1.0 -3.451" id="box-2" visible="false" animation="property: rotation; to: 0 360 0; loop: true; dur: 5000"></a-box>
+      <a-ring color="#FFF" scale="1.25 1.25 1.25" opacity="0.75" position="0.00 0.00 -4.50" id="ring-center" visible="false" rotation="-90 0 0" animation="property: scale; to: 1.55 1.55 1.55; easing: linear; loop: true; dur: 2000"></a-ring>
+      <a-ring color="#FFF" scale="1.25 1.25 1.25" opacity="0.75" position="3.4 0.00 0.84" id="ring-right" visible="false" rotation="-90 0 0" animation="property: scale; to: 1.55 1.55 1.55; easing: linear; loop: true; dur: 2000"></a-ring>
+      <a-ring color="#FFF" scale="1.25 1.25 1.25" opacity="0.75" position="-3.20 0.00 0.86" id="ring-left" visible="false" rotation="-90 0 0" animation="property: scale; to: 1.55 1.55 1.55; easing: linear; loop: true; dur: 2000"></a-ring>
+      <!--  -->
+      <!-- Q:2 -->
+      <a-cone color="#FBD238" scale="0.75 1.0 0.75" position="0.070 0.996 -3.451" id="cone-2" visible="false" rotation="0 90 0" animation="property: rotation; to: 360 0 0; loop: true; dur: 5000"></a-cone>
+      <a-ring color="#FFF" scale="1.25 1.25 1.25" opacity="0.75" position="0.00 0.00 -4.50" id="ring-center" visible="false" rotation="-90 0 0" animation="property: scale; to: 1.55 1.55 1.55; easing: linear; loop: true; dur: 2000"></a-ring>
+      <a-ring color="#FFF" scale="1.25 1.25 1.25" opacity="0.75" position="3.4 0.00 0.84" id="ring-right" visible="false" rotation="-90 0 0" animation="property: scale; to: 1.55 1.55 1.55; easing: linear; loop: true; dur: 2000"></a-ring>
+      <a-ring color="#FFF" scale="1.25 1.25 1.25" opacity="0.75" position="-3.20 0.00 0.86" id="ring-left" visible="false" rotation="-90 0 0" animation="property: scale; to: 1.55 1.55 1.55; easing: linear; loop: true; dur: 2000"></a-ring>
+      <!--  -->
+      <!-- Q:3 -->
+      <a-cylinder color="#207BEF" scale="0.55 1.0 0.55" position="0.070 0.996 -3.451" id="cylinder-3" visible="false" rotation="0 90 0" animation="property: rotation; to: 360 0 0; loop: true; dur: 5000"></a-cylinder>
+      <a-ring color="#FFF" scale="1.25 1.25 1.25" opacity="0.75" position="0.00 0.00 -4.50" id="ring-center" visible="false" rotation="-90 0 0" animation="property: scale; to: 1.55 1.55 1.55; easing: linear; loop: true; dur: 2000"></a-ring>
+      <a-ring color="#FFF" scale="1.25 1.25 1.25" opacity="0.75" position="3.4 0.00 0.84" id="ring-right" visible="false" rotation="-90 0 0" animation="property: scale; to: 1.55 1.55 1.55; easing: linear; loop: true; dur: 2000"></a-ring>
+      <a-ring color="#FFF" scale="1.25 1.25 1.25" opacity="0.75" position="-3.20 0.00 0.86" id="ring-left" visible="false" rotation="-90 0 0" animation="property: scale; to: 1.55 1.55 1.55; easing: linear; loop: true; dur: 2000"></a-ring>
+      <!--  -->
+      <!-- <a-sphere color="#FF4400" scale="0.35 0.35 0.35" position="0 2.109 -1.5" id="sphere" visible="false" animation="property: rotation; to: 360 0 360; loop: true; dur: 5000"></a-sphere>      
+        <a-cylinder color="#0008FF" scale="0.35 0.75 0.35" position="0 2.109 -1.5" id="cylinder" visible="false" animation="property: rotation; to: 360 0 0; loop: true; dur: 5000"></a-cylinder>
+        
+      <a-octahedron color="#FA003F" scale="0.45 0.45 0.45" position="0 2.109 -1.5" id="octahedron" visible="false" animation="property: rotation; to: 0 360 0; loop: true; dur: 5000"></a-octahedron> -->
+
+      <!-- <a-entity position="0 -2.65 0" environment="preset: forest; horizonColor: #69ADFF; skyColor: #6060f7;  lighting: none; shadow: none; lightPosition: 0 2.15 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 100000" hide-in-ar-mode></a-entity> -->
+      <!-- Light & Shadow -->
+      <a-entity light="type: ambient; intensity: 0.25;"></a-entity>
+      <a-light type="directional"
+        light="castShadow: true;
+        shadowMapHeight: 1024;
+        shadowMapWidth: 1024;
+        shadowCameraLeft: -7;
+        shadowCameraRight: 5;
+        shadowCameraBottom: -5;
+        shadowCameraTop: 5;"
+        id="light"
+        target="#box;#sphere;#cone;#cylinder;#octahedron;"
+        position="0 2.15 3">
+      </a-light>
+      <!-- Main Board -->
+      <a-entity position="0 3.25 -6" rotation="0 0 0">
+        <a-entity id="panel-tutorial" position="0.0 0.0 0.0" visible="true">
+          <a-gui-flex-container
+            flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+            position="0.0 0.0 0.0" rotation="0 0 0" flex-panel-in-ar
+            >
+            <a-gui-label
+              width="5" height="1.25"
+              value="Turn to see the shapes on your left & right"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.45 0"
+              position="0 1 0.5"
+              border="white"
+              panel-rounded="0.1"
+              background-color="#a1469a"
+              >
+            </a-gui-label>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.3"
+              font-color="#fff"
+              margin="0 0 1.0 0"
+              hide-box-1="target:#box-1"
+              hide-cone-1="target:#cone-1"
+              show-box-2="target:#box-2"
+              show-ring-center="target:#ring-center"
+              show-ring-left="target:#ring-left"
+              show-ring-right="target:#ring-right"
+              hideslide="target:#panel-tutorial"
+              showslide="target:#panel-Q1"
+              background-color="#F68B1E"
+              onclick="clicksound();"
+              value="Next"
+              >
+            </a-gui-button>
+          </a-gui-flex-container>
+          <a-gui-label
+            width="3.5" height="1.0"
+            value="This cube is on your left"
+            font-family="/learnxr/font/Slackey.ttf"
+            font-size="0.35"
+            font-color="#fff"
+            line-height="0.8"
+            letter-spacing="0"
+            margin="0 0 0.05 0"
+            position="-4.125 -2.0 6.28"
+            rotation="0 90 0"
+            border="white"
+            panel-rounded="0.1"
+            background-color="#F68B1E"
+            label-left-in-ar
+            >
+          </a-gui-label>
+          <a-gui-label
+            width="3.5" height="1.0"
+            value="This cone is on your right"
+            font-family="/learnxr/font/Slackey.ttf"
+            font-size="0.35"
+            font-color="#fff"
+            line-height="0.8"
+            letter-spacing="0"
+            margin="0 0 0.05 0"
+            position="4.125 -2.0 6.52"
+            rotation="0 270 0"
+            border="white"
+            panel-rounded="0.1"
+            background-color="#2568EF"
+            label-right-in-ar
+            >
+          </a-gui-label>
+        </a-entity>
+        <a-entity id="panel-Q1" position="javascript:void(0);" visible="false">
+          <a-gui-flex-container
+            flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+            position="0.0 0.0 0.0" rotation="0 0 0" flex-panel-in-ar
+            >
+            <a-gui-label
+              width="5" height="1.25"
+              value="1. Change the Cube to the Left Side"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.45 0"
+              border="white"
+              panel-rounded="0.1"
+              background-color="#a1469a"
+              >
+            </a-gui-label>
+            <a-gui-label
+              width="5.25" height="1.125"
+              value="Use the Green Arrow and Red Arrow to move"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.325"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 1.0 0"
+              border="white"
+              panel-rounded="0.1"
+              background-color="#F68B1E"
+              >
+            </a-gui-label>
+          </a-gui-flex-container>
+          <a-entity position="0 -2.25 1">
+            <a-gui-icon-label-button 
+              width="2.5" height="0.75"
+              icon="f060"
+              icon-font="assets/fonts/fa-solid-900.ttf"
+              font-size="0.85"
+              font-color="#fff"
+              moveleft="target:#box-2"
+              hideslide="target:#panel-Q1"
+              showslide="target:#panel-Q1-correct"
+              background-color="#EF465C"
+              position="-3 -0.25 0.5"
+              rotation="0 45 0"
+              onclick="clicksound(); scorePoints();"
+              >
+              <!-- Left -->
+            </a-gui-icon-label-button>
+            <a-gui-icon-label-button 
+              width="2.5" height="0.75"
+              icon="f061"
+              icon-font="assets/fonts/fa-solid-900.ttf"
+              font-size="0.85"
+              font-color="#fff"
+              moveright="target:#box-2"
+              hideslide="target:#panel-Q1"
+              showslide="target:#panel-Q1-wrong"
+              background-color="#A6CE39"
+              position="3 -0.25 0.5"
+              rotation="0 -45 0"
+              onclick="clicksound();"
+              >
+              <!-- Right -->
+            </a-gui-icon-label-button>
+          </a-entity>
+        </a-entity>
+        <a-entity id="panel-Q1-correct" position="javascript:void(0);" visible="false">
+          <a-gui-flex-container
+            flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 -0.125 0" rotation="0 0 0" flex-panel-in-ar
+            >
+            <a-gui-label
+              width="5" height="1.25"
+              value="Correct!!"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.45 0"
+              position="0 1 0.5"
+              border="white"
+              panel-rounded="0.1"
+              background-color="#a1469a"
+              >
+            </a-gui-label>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.3"
+              font-color="#fff"
+              margin="0 0 1.0 0"
+              background-color="#F68B1E"
+              hideslide="target:#panel-Q1-correct"
+              showslide="target:#panel-Q2"
+              hide-box-2="target:#box-2"
+              show-cone-2="target:#cone-2"
+              onclick="clicksound();"
+              value="Next"
+              >
+            </a-gui-button>
+          </a-gui-flex-container>
+          <a-gui-label
+            width="3.5" height="1.0"
+            value="Cube is now on your left"
+            font-family="/learnxr/font/Slackey.ttf"
+            font-size="0.35"
+            font-color="#fff"
+            line-height="0.8"
+            letter-spacing="0"
+            margin="0 0 0.05 0"
+            position="-4.125 -1.675 6.28"
+            rotation="0 90 0"
+            border="white"
+            panel-rounded="0.1"
+            background-color="#EF465C"
+            label-left-in-ar
+            >
+          </a-gui-label>
+        </a-entity>
+        <a-entity id="panel-Q1-wrong" position="javascript:void(0);" visible="false">
+          <a-gui-flex-container
+            flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 0.0 0" rotation="0 0 0" flex-panel-in-ar
+            >
+            <a-gui-label
+              width="5" height="1.25"
+              value="Wrong answer!!"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.45 0"
+              position="0 1 0.5"
+              border="white"
+              panel-rounded="0.1"
+              background-color="#a1469a"
+              >
+            </a-gui-label>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.3"
+              font-color="#fff"
+              margin="0 0 1.0 0"
+              background-color="#F68B1E"
+              hideslide="target:#panel-Q1-wrong"
+              showslide="target:#panel-Q2"
+              hide-box-2="target:#box-2"
+              show-cone-2="target:#cone-2"
+              onclick="clicksound();"
+              value="Next"
+              >
+            </a-gui-button>
+          </a-gui-flex-container>
+          <a-gui-label
+            width="3.5" height="1.0"
+            value="This is not your left"
+            font-family="/learnxr/font/Slackey.ttf"
+            font-size="0.35"
+            font-color="#fff"
+            line-height="0.8"
+            letter-spacing="0"
+            margin="0 0 0.05 0"
+            position="4.125 -1.75 6.52"
+            rotation="0 270 0"
+            border="white"
+            panel-rounded="0.1"
+            background-color="#2568EF"
+            label-right-in-ar
+            >
+          </a-gui-label>
+        </a-entity>
+        <a-entity id="panel-Q2" position="javascript:void(0);" visible="false">
+          <a-gui-flex-container
+            flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 -0.125 0" rotation="0 0 0" flex-panel-in-ar
+            >
+            <a-gui-label
+              width="5" height="1.25"
+              value="2. Change the Cone to the Right Side"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.45 0"
+              border="white"
+              panel-rounded="0.1"
+              background-color="#a1469a"
+              >
+            </a-gui-label>
+            <a-gui-label
+              width="5.25" height="1.125"
+              value="Use the Green Arrow and Red Arrow to move"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.25"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 1.0 0"
+              border="white"
+              panel-rounded="0.1"
+              background-color="#F68B1E"
+              >
+            </a-gui-label>
+          </a-gui-flex-container>
+          <a-entity position="0 -2.25 1">
+            <a-gui-icon-label-button 
+              width="2.5" height="0.75"
+              icon="f060"
+              icon-font="assets/fonts/fa-solid-900.ttf"
+              font-size="0.85"
+              font-color="#fff"
+              moveleft="target:#cone-2"
+              hideslide="target:#panel-Q2"
+              showslide="target:#panel-Q2-wrong"
+              background-color="#EF465C"
+              position="-3 -0.25 0.5"
+              rotation="0 45 0"
+              onclick="clicksound();"
+              >
+              <!-- Left -->
+            </a-gui-icon-label-button>
+            <a-gui-icon-label-button 
+              width="2.5" height="0.75"
+              icon="f061"
+              icon-font="assets/fonts/fa-solid-900.ttf"
+              font-size="0.85"
+              font-color="#fff"
+              moveright="target:#cone-2"
+              hideslide="target:#panel-Q2"
+              showslide="target:#panel-Q2-correct"
+              background-color="#A6CE39"
+              position="3 -0.25 0.5"
+              rotation="0 -45 0"
+              onclick="clicksound(); scorePoints();"
+              >
+              <!-- Right -->
+            </a-gui-icon-label-button>
+          </a-entity>
+        </a-entity>
+        <a-entity id="panel-Q2-correct" position="javascript:void(0);" visible="false">
+          <a-gui-flex-container
+            flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 -0.125 0" rotation="0 0 0" flex-panel-in-ar
+            >
+            <a-gui-label
+              width="5" height="1.25"
+              value="Correct!!"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.45 0"
+              position="0 1 0.5"
+              border="white"
+              panel-rounded="0.1"
+              background-color="#a1469a"
+              >
+            </a-gui-label>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.3"
+              font-color="#fff"
+              margin="0 0 1.0 0"
+              background-color="#F68B1E"
+              hideslide="target:#panel-Q2-correct"
+              showslide="target:#panel-Q3"
+              hide-box-2="target:#cone-2"
+              show-cone-2="target:#cylinder-3"
+              onclick="clicksound();"
+              value="Next"
+              >
+            </a-gui-button>
+          </a-gui-flex-container>
+          <a-gui-label
+            width="3.5" height="1.0"
+            value="Cone is now on your right"
+            font-family="/learnxr/font/Slackey.ttf"
+            font-size="0.35"
+            font-color="#fff"
+            line-height="0.8"
+            letter-spacing="0"
+            margin="0 0 0.05 0"
+            position="4.125 -2.0 6.52"
+            rotation="0 270 0"
+            border="white"
+            panel-rounded="0.1"
+            background-color="#2568EF"
+            label-right-in-ar
+            >
+          </a-gui-label>
+        </a-entity>
+        <a-entity id="panel-Q2-wrong" position="javascript:void(0);" visible="false">
+          <a-gui-flex-container
+            flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 -0.125 0" rotation="0 0 0" flex-panel-in-ar
+            >
+            <a-gui-label
+              width="5" height="1.25"
+              value="Wrong!!"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.45 0"
+              position="0 1 0.5"
+              border="white"
+              panel-rounded="0.1"
+              background-color="#a1469a"
+              >
+            </a-gui-label>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.3"
+              font-color="#fff"
+              margin="0 0 1.0 0"
+              background-color="#F68B1E"
+              hideslide="target:#panel-Q2-wrong"
+              showslide="target:#panel-Q3"
+              hide-box-2="target:#cone-2"
+              show-cone-2="target:#cylinder-3"
+              onclick="clicksound();"
+              value="Next"
+              >
+            </a-gui-button>
+          </a-gui-flex-container>
+          <a-gui-label
+            width="3.5" height="1.0"
+            value="This is not your right"
+            font-family="/learnxr/font/Slackey.ttf"
+            font-size="0.35"
+            font-color="#fff"
+            line-height="0.8"
+            letter-spacing="0"
+            margin="0 0 0.05 0"
+            position="-4.125 -1.675 6.28"
+            rotation="0 90 0"
+            border="white"
+            panel-rounded="0.1"
+            background-color="#EF465C"
+            label-left-in-ar
+            >
+          </a-gui-label>
+        </a-entity>
+        <a-entity id="panel-Q3" position="javascript:void(0);" visible="false">
+          <a-gui-flex-container
+            flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 -0.125 0" rotation="0 0 0" flex-panel-in-ar
+            >
+            <a-gui-label
+              width="5" height="1.25"
+              value="3. Change the Cylinder to the Left Side"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.45 0"
+              border="white"
+              panel-rounded="0.1"
+              background-color="#a1469a"
+              >
+            </a-gui-label>
+            <a-gui-label
+              width="5.25" height="1.125"
+              value="Use the Green Arrow and Red Arrow to move"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.25"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 1.0 0"
+              border="white"
+              panel-rounded="0.1"
+              background-color="#F68B1E"
+              >
+            </a-gui-label>
+          </a-gui-flex-container>
+          <a-entity position="0 -2.25 1">
+            <a-gui-icon-label-button 
+              width="2.5" height="0.75"
+              icon="f060"
+              icon-font="assets/fonts/fa-solid-900.ttf"
+              font-size="0.85"
+              font-color="#fff"
+              moveleft="target:#cylinder-3"
+              hideslide="target:#panel-Q3"
+              showslide="target:#panel-Q3-correct"
+              background-color="#EF465C"
+              position="-3 -0.25 0.5"
+              rotation="0 45 0"
+              onclick="clicksound(); scorePoints();"
+              >
+              <!-- Left -->
+            </a-gui-icon-label-button>
+            <a-gui-icon-label-button 
+              width="2.5" height="0.75"
+              icon="f061"
+              icon-font="assets/fonts/fa-solid-900.ttf"
+              font-size="0.85"
+              font-color="#fff"
+              moveright="target:#cylinder-3"
+              hideslide="target:#panel-Q3"
+              showslide="target:#panel-Q3-wrong"
+              background-color="#A6CE39"
+              position="3 -0.25 0.5"
+              rotation="0 -45 0"
+              onclick="clicksound();"
+              >
+              <!-- Right -->
+            </a-gui-icon-label-button>
+          </a-entity>
+        </a-entity>
+        <a-entity id="panel-Q3-correct" position="javascript:void(0);" visible="false">
+          <a-gui-flex-container
+            flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 -0.125 0" rotation="0 0 0" flex-panel-in-ar
+            >
+            <a-gui-label
+              width="5" height="1.25"
+              value="Correct!!"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.45 0"
+              position="0 1 0.5"
+              border="white"
+              panel-rounded="0.1"
+              background-color="#a1469a"
+              >
+            </a-gui-label>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.3"
+              font-color="#fff"
+              margin="0 0 1.0 0"
+              background-color="#F68B1E"
+              hideslide="target:#panel-Q3-correct"
+              hide-ring-center="target:#ring-center"
+              hide-ring-right="target:#ring-right"
+              hide-ring-left="target:#ring-left"
+              showslide="target:#panel-Q4"
+              hide-box-2="target:#cylinder-3"
+              onclick="clicksound();"
+              value="Next"
+              >
+            </a-gui-button>
+          </a-gui-flex-container>
+          <a-gui-label
+            width="3.5" height="1.0"
+            value="Cylinder is now on your left"
+            font-family="/learnxr/font/Slackey.ttf"
+            font-size="0.35"
+            font-color="#fff"
+            line-height="0.8"
+            letter-spacing="0"
+            margin="0 0 0.05 0"
+            position="-4.125 -1.675 6.28"
+            rotation="0 90 0"
+            border="white"
+            panel-rounded="0.1"
+            background-color="#EF465C"
+            label-left-in-ar
+            >
+          </a-gui-label>
+        </a-entity>
+        <a-entity id="panel-Q3-wrong" position="javascript:void(0);" visible="false">
+          <a-gui-flex-container
+            flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 -0.125 0" rotation="0 0 0" flex-panel-in-ar
+            >
+            <a-gui-label
+              width="5" height="1.25"
+              value="Wrong answer!!"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.45 0"
+              position="0 1 0.5"
+              border="white"
+              panel-rounded="0.1"
+              background-color="#a1469a"
+              >
+            </a-gui-label>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.3"
+              font-color="#fff"
+              margin="0 0 1.0 0"
+              background-color="#F68B1E"
+              hideslide="target:#panel-Q3-wrong"
+              showslide="target:#panel-Q4"
+              hide-box-2="target:#cylinder-3"
+              hide-ring-center="target:#ring-center"
+              hide-ring-right="target:#ring-right"
+              hide-ring-left="target:#ring-left"
+              onclick="clicksound();"
+              value="Next"
+              >
+            </a-gui-button>
+          </a-gui-flex-container>
+          <a-gui-label
+            width="3.5" height="1.0"
+            value="This is not your left"
+            font-family="/learnxr/font/Slackey.ttf"
+            font-size="0.35"
+            font-color="#fff"
+            line-height="0.8"
+            letter-spacing="0"
+            margin="0 0 0.05 0"
+            position="4.125 -1.75 6.52"
+            rotation="0 270 0"
+            border="white"
+            panel-rounded="0.1"
+            background-color="#2568EF"
+            label-right-in-ar
+            >
+          </a-gui-label>
+        </a-entity>
+        <a-entity id="panel-Q4" position="javascript:void(0);" visible="false">
+          <a-entity flex-panel-in-ar>
+            <a-gui-label
+              width="2" height="2"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.05 0"
+              position="0 2.5 0.75"
+              material="src:#logo"
+              background-color="#fff"
+              >
+            </a-gui-label>
+            <a-gui-flex-container
+              flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+              opacity="0.75" width="5.5" height="0.75" panel-color="#2D314C" panel-rounded="0.1"
+              position="0 1.5 0.5" rotation="0 0 0"
+              >
+              <a-gui-label
+                width="5.5" height="1.0"
+                value="Congratulations!"
+                font-family="assets/fonts/Slackey.ttf"
+                font-size="0.35"
+                font-color="#fff"
+                line-height="0.8"
+                letter-spacing="0"
+                margin="0 0 0.05 0"
+                position="0 0.5 0.5"
+                background-color="#A1469A"
+                >
+              </a-gui-label>
+            </a-gui-flex-container>
+            <a-gui-flex-container
+              flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+              opacity="0.75" width="6" height="5" panel-color="#2D314C" panel-rounded="0.1"
+              position="0 -1.0 0" rotation="0 0 0"
+              >
+            </a-gui-flex-container>
+            <a-entity position="0 -1.25 0">
+              <a-gui-label
+                width="5.0" height="1.0"
+                value="Lesson complete!"
+                font-family="assets/fonts/Slackey.ttf"
+                font-size="0.325"
+                font-color="#fff"
+                line-height="0.8"
+                letter-spacing="0"
+                margin="0 0 0.05 0"
+                position="0 1.5 0.5"
+                rotation="0 0 2.25"
+                background-color="#F68B1E"
+                >
+              </a-gui-label>
+              <a-gui-label
+                width="5.0" height="1.0"
+                value="Thank you for playing"
+                font-family="assets/fonts/Slackey.ttf"
+                font-size="0.325"
+                font-color="#fff"
+                line-height="0.8"
+                letter-spacing="0"
+                margin="0 0 0.45 0"
+                position="0 0.5 0.65"
+                background-color="#22c897"
+                >
+              </a-gui-label>
+              <a-gui-button 
+                width="2.25" height="0.75"
+                hidepanel="target:#page6"
+                showpanel="target:#page1"
+                showobject="target:#box"
+                margin="0 0 0.75 0"
+                position="0 -1.45 0"
+                font-family="assets/fonts/Slackey.ttf"
+                font-size="0.25"
+                background-color="#EF465C"
+                font-color="#fff"
+                onclick="clicksound(); window.location.reload();"
+                value="Play Again"
+                >
+              </a-gui-button>
+            </a-entity>
+          </a-entity>
+        </a-entity>
+        <img src="/learnxr/img/Logo_Simple-04.png">
+      </a-entity>
+      <!-- Mouse cursor so we can click on the scene with mouse or touch. -->
+      <a-entity id="mouseCursor" cursor="rayOrigin: mouse" raycaster="objects: [gui-interactable]"></a-entity>
+      <a-entity id="leftHand" laser-controls="hand: left" raycaster="objects: [gui-interactable]"></a-entity>
+      <a-entity id="rightHand" laser-controls="hand: right" raycaster="objects: [gui-interactable]"></a-entity>
+      <!-- Camera + cursor. -->
+      <a-entity id="cameraRig" position="0 1.6 0">
+        <a-camera look-controls wasd-controls position="0 0 0">
+          <a-gui-cursor 
+            id="cursor" cursor-ar-mode
+            raycaster="objects: [none]"
+            fuse="true" fuse-timeout="2000"
+            design="ring" visible="false"
+            >
+          </a-gui-cursor>
+          <!-- /cursor -->
+        </a-camera>
+        <!-- /camera -->
+      </a-entity>
+      <script type="text/javascript">
+        var button = document.querySelector("button")
+        
+          button.addEventListener("click", (e) => {
+            button.parentNode.style.display = "none"
+          })
+      </script>
+      <script>
+        function clicksound(){
+           var snd = new Audio('/learnxr/audio/pop.mp3')//wav is also supported
+           snd.play()//plays the sound
+        
+        }
+        function clicksound2(){
+           var snd = new Audio('/learnxr/audio/rapid.mp3')//wav is also supported
+           snd.play()//plays the sound
+        
+        }
+        function bckgrndmusic(){
+           var snd = new Audio('/learnxr/audio/bckgrnd.mp3')//wav is also supported
+           snd.play()//plays the sound
+           snd.loop = true;//loops the sound
+        }
+        function hoversound(){
+           var snd = new Audio('/learnxr/audio/drip.mp3')//wav is also supported
+           snd.play()//plays the sound
+        }
+        function hoversound2(){
+           var snd = new Audio('/learnxr/audio/spring-bong.mp3')//wav is also supported
+           snd.play()//plays the sound
+        }
+        function turnleft(){
+           var snd = new Audio('/learnxr/audio/voice/turn-left.mp3')//wav is also supported
+           snd.play()//plays the sound
+        }
+        function turnright(){
+           var snd = new Audio('/learnxr/audio/voice/turn-right.mp3')//wav is also supported
+           snd.play()//plays the sound
+        }
+      </script>
+    </a-scene>
+  </body>
+</html>

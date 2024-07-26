@@ -1,0 +1,1322 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta name="theme-color" content="#2C3EA6" />
+
+    <!-- Primary Meta Tags -->
+    <title>Lesson 4 - Geometry Labs - Shape & Direction - Kids Learn N' Fun 2022</title>
+    <meta name="title" content="Geometry Labs">
+    <meta name="description" content="Geometry Labs — Show Off Your Math Skills by Conquering 3rd Grade Geometry!">
+    <meta name="keywords" content="beamport, xr, vr, ar, virtual, reality, beamport vr, beamport ar, beamport xr, virtual reality, virtual reality kenya, virtual reality africa, eduvr, learnxr, learnvr, learnar, learnxr africa, learnxr kenya, virtual reality kids, augmented reality kids ">
+    <meta name="author" content="Geometry Labs">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://beamport.net/learnxr/">
+    <meta property="og:title" content="Geometry Labs">
+    <meta property="og:description" content="Geometry Labs — Show Off Your Math Skills by Conquering 3rd Grade Geometry!">
+    <meta property="og:image" content="https://beamport.net/learnxr/img/geometry-labs.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://beamport.net/learnxr/">
+    <meta property="twitter:title" content="Geometry Labs">
+    <meta property="twitter:description" content="Geometry Labs — Show Off Your Math Skills by Conquering 3rd Grade Geometry!">
+    <meta property="twitter:image" content="https://beamport.net/learnxr/img/geometry-labs.jpg">
+
+    <!--  -->
+    <link href="/learnxr/css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="/learnxr/img/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+    <link href="/learnxr/img/favicon.ico" rel="apple-touch-icon"/>
+
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="js/aframe-gui.js"></script>
+    <script src="js/gui-env.js"></script>
+    <script src="js/fontfaceobserver.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/demo.js"></script>
+    <script src="js/build.js"></script>
+    <script>
+      //Hide in AR
+      AFRAME.registerComponent('hide-in-ar-mode', {
+        init: function () {
+          this.el.sceneEl.addEventListener('enter-vr', (ev) => {
+          if (this.el.sceneEl.is('ar-mode')) {
+            this.el.setAttribute('visible', false);
+          }
+          });
+          this.el.sceneEl.addEventListener('exit-vr', (ev) => {
+          this.el.setAttribute('visible', true);
+          });
+        }
+      })
+    </script>
+    <style>
+      ::selection {
+        background: #F68B1E;
+        color: #FFF;
+      }
+
+      ::-moz-selection {
+        background: #F68B1E;
+        color: #FFF;
+      }
+      
+      @font-face {
+        font-family: Slackey;
+        src: url("/learnxr/font/Slackey.ttf") format('truetype');
+        font-weight: 400;
+        font-style: normal
+      }
+
+      body {
+        font-family: Slackey, sans-serif;
+      }
+
+      #foreground {
+        width: 100%;
+        height: 100%;
+        display: block;
+        z-index: 10;
+        position: fixed;
+        background: #1877BE;
+      }
+
+      .hsk2020-foreground-wrapper {
+        position: relative;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
+        text-align: center
+      }
+    </style>
+    <script>
+
+    // Simple Score Function
+     var clicks = 0;
+
+     function clickME() {
+       clicks += 10;
+       document.getElementById("total-scores").innerHTML = clicks;
+       document.getElementById("scores").innerHTML = clicks;
+     }
+
+    // Hide Object Function 
+    AFRAME.registerComponent('hideobject', {
+      schema: {
+        'target': {type: 'selector'},
+      },
+      init: function () {
+        var show=false;    
+        this.el.addEventListener("click",()=>{
+          if(show){
+            this.data.target.setAttribute("visible","true");
+            this.el.querySelector("a-gui-button").innerHTML="Hide Object";
+          }else{
+            this.data.target.setAttribute("visible","false");
+            this.el.querySelector("a-gui-button").innerHTML="Show Object";
+          }
+          show=!show;
+        });
+      }
+    });
+
+    // Show Object Function
+    AFRAME.registerComponent('showobject', {
+      schema: {
+        'target': {type: 'selector'},
+      },
+      init: function () {
+        var show=false;    
+        this.el.addEventListener("click",()=>{
+          if(show){
+            this.data.target.setAttribute("visible","false");
+            this.el.querySelector("a-gui-button").innerHTML="Show Object";
+          }else{
+            this.data.target.setAttribute("visible","true");
+            this.el.querySelector("a-gui-button").innerHTML="Hide Object";
+          }
+          show=!show;
+        });
+      }
+    });
+
+    // Hide Slide Function 
+    AFRAME.registerComponent('hideslide', {
+      schema: {
+        'target': {type: 'selector'},
+      },
+      init: function () {
+        var show=false;    
+        this.el.addEventListener("click",()=>{
+          if(show){
+            this.data.target.setAttribute("visible","true");
+            this.data.target.setAttribute("position","0.000 0.125 0.000");
+            this.el.querySelector("a-gui-button").innerHTML="Hide Slide";
+          }else{
+            this.data.target.setAttribute("visible","false");
+            this.data.target.setAttribute("position","javascript:void(0);");
+            this.el.querySelector("a-gui-button").innerHTML="Show Slide";
+          }
+          show=!show;
+        });
+      }
+    });
+
+    // Show Slide Function
+    AFRAME.registerComponent('showslide', {
+      schema: {
+        'target': {type: 'selector'},
+      },
+      init: function () {
+        var show=false;    
+        this.el.addEventListener("click",()=>{
+          if(show){
+            this.data.target.setAttribute("visible","false");
+            this.data.target.setAttribute("position","javascript:void(0);");
+            this.el.querySelector("a-gui-button").innerHTML="Show Slide";
+          }else{
+            this.data.target.setAttribute("visible","true");
+            this.data.target.setAttribute("position","0.000 0.125 0.000");
+            this.el.querySelector("a-gui-button").innerHTML="Hide Slide";
+          }
+          show=!show;
+        });
+      }
+    });
+
+    // Move Left Function
+    AFRAME.registerComponent('moveleft', {
+      schema: {
+        'target': {type: 'selector'},
+      },
+      init: function () {
+        var show=false;    
+        this.el.addEventListener("click",()=>{
+          if(show){
+            this.data.target.setAttribute("position","0.070 0.996 -3.451");
+            this.el.querySelector("a-gui-button").innerHTML="Move Origin";
+          }else{
+            this.data.target.setAttribute("position","-3.20 0.575 0.86");
+            this.el.querySelector("a-gui-button").innerHTML="Move Left";
+          }
+          show=!show;
+        });
+      }
+    });
+
+    // Move Right Function
+    AFRAME.registerComponent('moveright', {
+      schema: {
+        'target': {type: 'selector'},
+      },
+      init: function () {
+        var show=false;    
+        this.el.addEventListener("click",()=>{
+          if(show){
+            this.data.target.setAttribute("position","0.07 -2.5 2.125");
+            this.el.querySelector("a-gui-button").innerHTML="Move Origin";
+          }else{
+            this.data.target.setAttribute("position","3.20 0.575 0.86");
+            this.el.querySelector("a-gui-button").innerHTML="Move Left";
+          }
+          show=!show;
+        });
+      }
+    });
+    </script>
+<script type="text/javascript">
+    // Hide Box_1 Function 
+    AFRAME.registerComponent('hide-tutorial-shape-box', {
+      schema: {
+        'target': {type: 'selector'},
+      },
+      init: function () {
+        var show=false;    
+        this.el.addEventListener("click",()=>{
+          if(show){
+            this.data.target.setAttribute("visible","true");
+            this.el.querySelector("a-gui-button").innerHTML="Hide Box1";
+          }else{
+            this.data.target.setAttribute("visible","false");
+            this.el.querySelector("a-gui-button").innerHTML="Show Box1";
+          }
+          show=!show;
+        });
+      }
+    });
+
+    // Show Box_1 Function
+    AFRAME.registerComponent('show-tutorial-shape-box', {
+      schema: {
+        'target': {type: 'selector'},
+      },
+      init: function () {
+        var show=false;    
+        this.el.addEventListener("click",()=>{
+          if(show){
+            this.data.target.setAttribute("visible","false");
+            this.el.querySelector("a-gui-button").innerHTML="Show Box1";
+          }else{
+            this.data.target.setAttribute("visible","true");
+            this.el.querySelector("a-gui-button").innerHTML="Hide Box1";
+          }
+          show=!show;
+        });
+      }
+    });
+</script>
+
+
+<script type="text/javascript">
+    // Hide Box_2 Function 
+    AFRAME.registerComponent('hide-Q1-shape-box', {
+      schema: {
+        'target': {type: 'selector'},
+      },
+      init: function () {
+        var show=false;    
+        this.el.addEventListener("click",()=>{
+          if(show){
+            this.data.target.setAttribute("visible","true");
+            this.el.querySelector("a-gui-button").innerHTML="Hide Box2";
+          }else{
+            this.data.target.setAttribute("visible","false");
+            this.el.querySelector("a-gui-button").innerHTML="Show Box2";
+          }
+          show=!show;
+        });
+      }
+    });
+
+    // Show Box_1 Function
+    AFRAME.registerComponent('show-Q1-shape-box', {
+      schema: {
+        'target': {type: 'selector'},
+      },
+      init: function () {
+        var show=false;    
+        this.el.addEventListener("click",()=>{
+          if(show){
+            this.data.target.setAttribute("visible","false");
+            this.el.querySelector("a-gui-button").innerHTML="Show Box2";
+          }else{
+            this.data.target.setAttribute("visible","true");
+            this.el.querySelector("a-gui-button").innerHTML="Hide Box2";
+          }
+          show=!show;
+        });
+      }
+    });
+</script>
+
+
+<script type="text/javascript">
+    // Hide Cone_1 Function 
+    AFRAME.registerComponent('hide-tutorial-shape-cone', {
+      schema: {
+        'target': {type: 'selector'},
+      },
+      init: function () {
+        var show=false;    
+        this.el.addEventListener("click",()=>{
+          if(show){
+            this.data.target.setAttribute("visible","true");
+            this.el.querySelector("a-gui-button").innerHTML="Hide Cone1";
+          }else{
+            this.data.target.setAttribute("visible","false");
+            this.el.querySelector("a-gui-button").innerHTML="Show Cone1";
+          }
+          show=!show;
+        });
+      }
+    });
+
+    // Show Cone_1 Function
+    AFRAME.registerComponent('show-tutorial-shape-cone', {
+      schema: {
+        'target': {type: 'selector'},
+      },
+      init: function () {
+        var show=false;    
+        this.el.addEventListener("click",()=>{
+          if(show){
+            this.data.target.setAttribute("visible","false");
+            this.el.querySelector("a-gui-button").innerHTML="Show Cone1";
+          }else{
+            this.data.target.setAttribute("visible","true");
+            this.el.querySelector("a-gui-button").innerHTML="Hide Cone1";
+          }
+          show=!show;
+        });
+      }
+    });
+</script>
+
+
+<script type="text/javascript">
+    // Hide Ring_Center Function 
+    AFRAME.registerComponent('hide-Q1-ring-center', {
+      schema: {
+        'target': {type: 'selector'},
+      },
+      init: function () {
+        var show=false;    
+        this.el.addEventListener("click",()=>{
+          if(show){
+            this.data.target.setAttribute("visible","true");
+            this.el.querySelector("a-gui-button").innerHTML="Hide Ring Center";
+          }else{
+            this.data.target.setAttribute("visible","false");
+            this.el.querySelector("a-gui-button").innerHTML="Show Ring Center";
+          }
+          show=!show;
+        });
+      }
+    });
+
+    // Show Ring_Center Function
+    AFRAME.registerComponent('show-Q1-ring-center', {
+      schema: {
+        'target': {type: 'selector'},
+      },
+      init: function () {
+        var show=false;    
+        this.el.addEventListener("click",()=>{
+          if(show){
+            this.data.target.setAttribute("visible","false");
+            this.el.querySelector("a-gui-button").innerHTML="Show Ring Center";
+          }else{
+            this.data.target.setAttribute("visible","true");
+            this.el.querySelector("a-gui-button").innerHTML="Hide Ring Center";
+          }
+          show=!show;
+        });
+      }
+    });
+</script>
+
+
+<script type="text/javascript">
+    // Hide Ring_Right Function 
+    AFRAME.registerComponent('hide-Q1-ring-right', {
+      schema: {
+        'target': {type: 'selector'},
+      },
+      init: function () {
+        var show=false;    
+        this.el.addEventListener("click",()=>{
+          if(show){
+            this.data.target.setAttribute("visible","true");
+            this.el.querySelector("a-gui-button").innerHTML="Hide Ring Right";
+          }else{
+            this.data.target.setAttribute("visible","false");
+            this.el.querySelector("a-gui-button").innerHTML="Show Ring Right";
+          }
+          show=!show;
+        });
+      }
+    });
+
+    // Show Ring_Right Function
+    AFRAME.registerComponent('show-Q1-ring-right', {
+      schema: {
+        'target': {type: 'selector'},
+      },
+      init: function () {
+        var show=false;    
+        this.el.addEventListener("click",()=>{
+          if(show){
+            this.data.target.setAttribute("visible","false");
+            this.el.querySelector("a-gui-button").innerHTML="Show Ring Right";
+          }else{
+            this.data.target.setAttribute("visible","true");
+            this.el.querySelector("a-gui-button").innerHTML="Hide Ring Right";
+          }
+          show=!show;
+        });
+      }
+    });
+</script>
+
+
+<script type="text/javascript">
+    // Hide Ring Left Function 
+    AFRAME.registerComponent('hide-Q1-ring-left', {
+      schema: {
+        'target': {type: 'selector'},
+      },
+      init: function () {
+        var show=false;    
+        this.el.addEventListener("click",()=>{
+          if(show){
+            this.data.target.setAttribute("visible","true");
+            this.el.querySelector("a-gui-button").innerHTML="Hide Ring Left";
+          }else{
+            this.data.target.setAttribute("visible","false");
+            this.el.querySelector("a-gui-button").innerHTML="Show Ring Left";
+          }
+          show=!show;
+        });
+      }
+    });
+
+    // Show Ring Left Function
+    AFRAME.registerComponent('show-Q1-ring-left', {
+      schema: {
+        'target': {type: 'selector'},
+      },
+      init: function () {
+        var show=false;    
+        this.el.addEventListener("click",()=>{
+          if(show){
+            this.data.target.setAttribute("visible","false");
+            this.el.querySelector("a-gui-button").innerHTML="Show Ring Left";
+          }else{
+            this.data.target.setAttribute("visible","true");
+            this.el.querySelector("a-gui-button").innerHTML="Hide Ring Left";
+          }
+          show=!show;
+        });
+      }
+    });
+</script>
+    <script>
+      //Change Position in AR
+      AFRAME.registerComponent('in-ar-space', {
+        init: function () {
+          this.el.sceneEl.addEventListener('enter-vr', (ev) => {
+          if (this.el.sceneEl.is('ar-mode')) {
+            this.el.setAttribute('position', '0.000 0.125 -4.850');
+          }
+          });
+          this.el.sceneEl.addEventListener('exit-vr', (ev) => {
+          this.el.setAttribute('position', '0.000 0.125 0.000');
+          });
+        }
+      })
+    </script>
+  </head>
+  <body>
+    <div id="foreground" class="hsk2020-foreground-wrapper">
+      <div class="vtl-body">
+        <div class="vtl-header">
+          <br><br>
+            <br><br>
+              <h1 class="vtl-page-title">Are You Ready?</h1>
+                <div class="vtl-lp">
+                  <br>
+                </div>
+        </div>
+      </div>
+      <button class="hsk2020-button-2 intro w-button" onmouseenter="hoversound2()" onclick="clicksound(); bckgrndmusic();"  style="transform: scale(0.75);">
+        Yes Let's Go!
+      </button>
+    </div>
+
+    <!-- Main Scene -->
+    <a-scene gui-env loading-screen="dotsColor: #FFF; backgroundColor: #EF465C">
+
+      <!-- Textures -->
+      <a-assets>
+        <a-asset-item id="iconfontsolid" src="assets/fonts/fa-solid-900.ttf"></a-asset-item>
+        <a-asset-item id="iconfontbrand" src="assets/fonts/fa-regular-400.ttf"></a-asset-item>
+        <a-asset-item id="iconfontbrand" src="assets/fonts/fa-brands-400.ttf"></a-asset-item>
+
+        <img id="logo" src="/learnxr/img/Logo_Simple-04.png">
+      </a-assets>
+
+      <a-sky color="#59ADFF" hide-in-ar-mode></a-sky>
+
+      <!-- Shapes -->
+
+        <!-- Tutorial -->
+        <a-box color="#FA003F" scale="1.0 1.0 1.0" position="-2.85 0.508 0.78" id="tutorial-shape-box" visible="true" animation="property: rotation; to: 0 360 0; loop: true; dur: 5000"></a-box>
+
+        <a-cone color="#A6CE39" scale="0.55 1.25 0.55" position="3.033 0.810 0.80" id="tutorial-shape-cone" visible="true" rotation="0 90 0" animation="property: rotation; to: 360 0 0; loop: true; dur: 7500"></a-cone>
+        <!--  -->
+
+        <!-- Q:1 -->
+        <a-box color="#2568EF" scale="1.2 1.2 1.2" position="0.070 0.996 -3.451" id="Q1-shape-box" visible="false" animation="property: rotation; to: 0 360 0; loop: true; dur: 5000"></a-box>
+
+        <a-ring color="#7BC8A4" scale="1.25 1.25 1.25" position="0.00 0.00 -4.50" id="Q1-ring-center" visible="false" rotation="-90 0 0" animation="property: scale; to: 1.55 1.55 1.55; easing: linear; loop: true; dur: 2000"></a-ring>
+
+        <a-ring color="#7BC8A4" scale="1.25 1.25 1.25" position="3.4 0.00 0.84" id="Q1-ring-right" visible="false" rotation="-90 0 0" animation="property: scale; to: 1.55 1.55 1.55; easing: linear; loop: true; dur: 2000"></a-ring>
+
+        <a-ring color="#7BC8A4" scale="1.25 1.25 1.25" position="-3.20 0.00 0.86" id="Q1-ring-left" visible="false" rotation="-90 0 0" animation="property: scale; to: 1.55 1.55 1.55; easing: linear; loop: true; dur: 2000"></a-ring>
+        <!--  -->
+
+      <a-sphere color="#FF4400" scale="0.35 0.35 0.35" position="0 2.109 -1.5" id="sphere" visible="false" animation="property: rotation; to: 360 0 360; loop: true; dur: 5000"></a-sphere>      
+
+      <a-cylinder color="#0008FF" scale="0.35 0.75 0.35" position="0 2.109 -1.5" id="cylinder" visible="false" animation="property: rotation; to: 360 0 0; loop: true; dur: 5000"></a-cylinder>
+
+      <a-octahedron color="#FA003F" scale="0.45 0.45 0.45" position="0 2.109 -1.5" id="octahedron" visible="false" animation="property: rotation; to: 0 360 0; loop: true; dur: 5000"></a-octahedron>
+
+      <!-- Main Board -->
+
+      <a-entity position="0 3.25 -6" rotation="0 0 0">
+        <a-entity id="panel-tutorial" in-ar-space position="0.000 0.125 0.000" visible="true">
+            <a-gui-flex-container
+              flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+              opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+              position="0 -0.125 0" rotation="0 0 0"
+              >
+              <a-gui-label
+                width="5" height="1.25"
+                value="Turn your device to see the shapes on your left & right"
+                font-family="/learnxr/font/Slackey.ttf"
+                font-size="0.35"
+                font-color="#fff"
+                line-height="0.8"
+                letter-spacing="0"
+                margin="0 0 0.45 0"
+                border-rounded="0.1"
+                background-color="#a1469a"
+                >
+              </a-gui-label>
+              <a-gui-button 
+                width="2.5" height="0.75"
+                font-family="/learnxr/font/Slackey.ttf"
+                font-size="0.3"
+                font-color="#fff"
+                margin="0 0 1.0 0"
+                hide-tutorial-shape-box="target:#tutorial-shape-box"
+                hide-tutorial-shape-cone="target:#tutorial-shape-cone"
+                show-Q1-shape-box="target:#Q1-shape-box"
+                show-Q1-ring-center="target:#Q1-ring-center"
+                show-Q1-ring-left="target:#Q1-ring-left"
+                show-Q1-ring-right="target:#Q1-ring-right"
+                hideslide="target:#panel-tutorial"
+                showslide="target:#panel-Q1"
+                background-color="#F68B1E"
+                value="Next"
+                >
+              </a-gui-button>
+            </a-gui-flex-container>
+              
+            <a-gui-label
+              width="3.5" height="1.0"
+              value="This cube is on your left"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.05 0"
+              position="-4.125 -2.0 6.28"
+              rotation="0 90 0"
+              border="white"
+              panel-rounded="0.1"
+              background-color="#F68B1E"
+              >
+            </a-gui-label>
+
+            <a-gui-label
+              width="3.5" height="1.0"
+              value="This cone is on your right"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.05 0"
+              position="4.125 -2.0 6.52"
+              rotation="0 270 0"
+              border="white"
+              panel-rounded="0.1"
+              background-color="#2568EF"
+              >
+            </a-gui-label>
+        </a-entity>
+        <a-entity id="panel-Q1" position="javascript:void(0);" visible="true">
+            <a-gui-flex-container
+              flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+              opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+              position="0 -0.125 0" rotation="0 0 0"
+              >
+              <a-gui-label
+                width="5" height="1.25"
+                value="1. Change the Cube to the Left Side"
+                font-family="/learnxr/font/Slackey.ttf"
+                font-size="0.35"
+                font-color="#fff"
+                line-height="0.8"
+                letter-spacing="0"
+                margin="0 0 0.45 0"
+                border="white"
+                panel-rounded="0.1"
+                background-color="#a1469a"
+                >
+              </a-gui-label>
+
+              <a-gui-label
+                width="4" height="1"
+                value="Use the Arrows to move the object"
+                font-family="/learnxr/font/Slackey.ttf"
+                font-size="0.25"
+                font-color="#fff"
+                line-height="0.8"
+                letter-spacing="0"
+                margin="0 0 1.0 0"
+                border="white"
+                panel-rounded="0.1"
+                background-color="#F68B1E"
+                >
+              </a-gui-label>
+            </a-gui-flex-container>
+              
+            <a-entity position="0 -2.25 1">
+              <a-gui-icon-label-button 
+                width="2.5" height="0.75"
+                icon="f060"
+                icon-font="assets/fonts/fa-solid-900.ttf"
+                font-size="0.85"
+                font-color="#fff"
+                moveleft="target:#Q1-shape-box"
+                hideslide="target:#panel-Q1"
+                showslide="target:#panel-Q1-correct"
+                background-color="#EF465C"
+                position="-3 -0.25 0.5"
+                rotation="0 50 0"
+                ><!-- Left -->
+              </a-gui-icon-label-button>
+              
+              <a-gui-icon-label-button 
+                width="2.5" height="0.75"
+                icon="f061"
+                icon-font="assets/fonts/fa-solid-900.ttf"
+                font-size="0.85"
+                font-color="#fff"
+                moveright="target:#Q1-shape-box"
+                hideslide="target:#panel-Q1"
+                showslide="target:#panel-Q1-wrong"
+                background-color="#A6CE39"
+                position="3 -0.25 0.5"
+                rotation="0 -50 0"
+                ><!-- Right -->
+              </a-gui-icon-label-button>
+            </a-entity>
+        </a-entity>
+        <a-entity id="panel-Q1-correct" position="javascript:void(0);" visible="true">
+
+            <a-gui-label
+              width="5" height="1.25"
+              value="Correct!!"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.05 0"
+              position="0 1 0.5"
+              border="white"
+              panel-rounded="0.1"
+              background-color="#a1469a"
+              >
+            </a-gui-label>
+              
+            <a-gui-label
+              width="3.5" height="1.0"
+              value="Cube is now on your left"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.05 0"
+              position="-4.125 -1.675 6.28"
+              rotation="0 90 0"
+              border="white"
+              panel-rounded="0.1"
+              background-color="#EF465C"
+              >
+            </a-gui-label>
+            <a-gui-flex-container
+              flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
+              opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+              position="0 -0.125 0" rotation="0 0 0"
+              >
+              <a-gui-button 
+                width="2.5" height="0.75"
+                font-family="/learnxr/font/Slackey.ttf"
+                font-size="0.3"
+                font-color="#fff"
+                background-color="#F68B1E"
+                value="Next"
+                >
+              </a-gui-button>
+            </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="panel-Q1-wrong" position="javascript:void(0);" visible="true">
+            <a-gui-label
+              width="5" height="1.25"
+              value="Wrong side!!"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.05 0"
+              position="0 1 0.5"
+              border="white"
+              panel-rounded="0.1"
+              background-color="#FF000B"
+              >
+            </a-gui-label>
+              
+            <!-- <a-gui-label
+              width="3.5" height="1.0"
+              value="Cube is now on your left"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.05 0"
+              position="-4.125 -1.675 6.28"
+              rotation="0 90 0"
+              border="white"
+              panel-rounded="0.1"
+              background-color="#EF465C"
+              >
+            </a-gui-label> -->
+            <a-gui-label
+              width="3.5" height="1.0"
+              value="This is not your left"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.05 0"
+              position="4.125 -1.675 6.28"
+              rotation="0 270 0"
+              border="white"
+              panel-rounded="0.1"
+              background-color="#FF000B"
+              >
+            </a-gui-label>
+            <a-gui-flex-container
+              flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
+              opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+              position="0 -0.125 0" rotation="0 0 0"
+              >
+              <a-gui-button 
+                width="2.5" height="0.75"
+                font-family="/learnxr/font/Slackey.ttf"
+                font-size="0.3"
+                font-color="#fff"
+                background-color="#A6CE39"
+                value="Next"
+                >
+              </a-gui-button>
+            </a-gui-flex-container>
+        </a-entity>
+        <!-- <a-entity id="page2" position="0.000 -100.000 0.000" visible="false">
+            <a-gui-label
+              width="5" height="1.0"
+              value="2. What is the name of this 3D Shape?"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.05 0"
+              position="0 1 0.5"
+              background-color="#f68b1f"
+              >
+            </a-gui-label>
+            <a-gui-flex-container
+              flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
+              opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+              position="0 -0.125 0" rotation="0 0 0"
+              >
+              <a-gui-button 
+                width="2.5" height="0.75"
+                hideobject="target:#sphere"
+                hideslide="target:#page2"
+                showslide="target:#page2_"
+                font-family="/learnxr/font/Slackey.ttf"
+                font-size="0.3"
+                background-color="#EF465C"
+                font-color="#fff"
+                value="Circle"
+                >
+              </a-gui-button>
+              <a-gui-button 
+                width="2.5" height="0.75"
+                hideobject="target:#sphere"
+                hideslide="target:#page2"
+                showslide="target:#page2_"
+                font-family="/learnxr/font/Slackey.ttf"
+                font-size="0.3"
+                background-color="#A6CE39"
+                font-color="#fff"
+                value="Cone"
+                >
+              </a-gui-button>
+              <a-gui-button 
+                width="2.5" height="0.75"
+                hideobject="target:#sphere"
+                showobject="target:#cone"
+                hideslide="target:#page2"
+                showslide="target:#page3"
+                font-family="/learnxr/font/Slackey.ttf"
+                font-size="0.3"
+                background-color="#207BEF"
+                font-color="#fff"
+                onClick="clickME()"
+                value="Sphere"
+                >
+              </a-gui-button>
+            </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="page2_" position="0.000 -100.000 0.000" visible="false">
+            <a-gui-label
+              width="5" height="1.0"
+              value="The correct answer is: Sphere"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.05 0"
+              position="0 1 0.5"
+              background-color="#22c897"
+              >
+            </a-gui-label>
+            <a-gui-flex-container
+              flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
+              opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+              position="0 -0.125 0" rotation="0 0 0"
+              >
+              <a-gui-button 
+                width="2.5" height="0.75"
+                showobject="target:#cone"
+                hideslide="target:#page2_"
+                showslide="target:#page3"
+                font-family="/learnxr/font/Slackey.ttf"
+                font-size="0.3"
+                background-color="#F68B1E"
+                font-color="#fff"
+                value="Next"
+                >
+              </a-gui-button>
+            </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="page3" position="0.000 -100.000 0.000" visible="false">
+            <a-gui-label
+              width="5" height="1.0"
+              value="3. What is the name of this 3D Shape?"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.05 0"
+              position="0 1 0.5"
+              background-color="#3968E9"
+              >
+            </a-gui-label>
+            <a-gui-flex-container
+              flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
+              opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+              position="0 -0.125 0" rotation="0 0 0"
+              >
+              <a-gui-button 
+                width="2.5" height="0.75"
+                hideobject="target:#cone"
+                showobject="target:#cylinder"
+                hideslide="target:#page3"
+                showslide="target:#page4"
+                font-family="/learnxr/font/Slackey.ttf"
+                font-size="0.3"
+                background-color="#EF465C"
+                font-color="#fff"
+                onClick="clickME()"
+                value="Cone"
+                >
+              </a-gui-button>
+              <a-gui-button 
+                width="2.5" height="0.75"
+                hideobject="target:#cone"
+                hideslide="target:#page3"
+                showslide="target:#page3_"
+                font-family="/learnxr/font/Slackey.ttf"
+                font-size="0.3"
+                background-color="#FBD238"
+                font-color="#fff"
+                value="Pyramid"
+                >
+              </a-gui-button>
+              <a-gui-button 
+                width="2.5" height="0.75"
+                hideobject="target:#cone"
+                hideslide="target:#page3"
+                showslide="target:#page3_"
+                font-family="/learnxr/font/Slackey.ttf"
+                font-size="0.3"
+                background-color="#A790C4"
+                font-color="#fff"
+                value="Triangle"
+                >
+              </a-gui-button>
+            </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="page3_" position="0.000 -100.000 0.000" visible="false">
+            <a-gui-label
+              width="5" height="1.0"
+              value="The correct answer is: Cone"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.05 0"
+              position="0 1 0.5"
+              background-color="#22c897"
+              >
+            </a-gui-label>
+            <a-gui-flex-container
+              flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
+              opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+              position="0 -0.125 0" rotation="0 0 0"
+              >
+              <a-gui-button 
+                width="2.5" height="0.75"
+                showobject="target:#cylinder"
+                hideslide="target:#page3_"
+                showslide="target:#page4"
+                font-family="/learnxr/font/Slackey.ttf"
+                font-size="0.3"
+                background-color="#F68B1E"
+                font-color="#fff"
+                value="Next"
+                >
+              </a-gui-button>
+            </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="page4" position="0.000 -100.000 0.000" visible="false">
+            <a-gui-label
+              width="5" height="1.0"
+              value="4. What is the name of this 3D Shape?"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.05 0"
+              position="0 1 0.5"
+              background-color="#EF465C"
+              >
+            </a-gui-label>
+            <a-gui-flex-container
+              flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
+              opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+              position="0 -0.125 0" rotation="0 0 0"
+              >
+              <a-gui-button 
+                width="2.5" height="0.75"
+                hideobject="target:#cylinder"
+                showobject="target:#octahedron"
+                hideslide="target:#page4"
+                showslide="target:#page5"
+                font-family="/learnxr/font/Slackey.ttf"
+                font-size="0.3"
+                background-color="#F27CA3"
+                font-color="#fff"
+                onClick="clickME()"
+                value="Cylinder"
+                >
+              </a-gui-button>
+              <a-gui-button 
+                width="2.5" height="0.75"
+                hideobject="target:#cylinder"
+                hideslide="target:#page4"
+                showslide="target:#page4_"
+                font-family="/learnxr/font/Slackey.ttf"
+                font-size="0.3"
+                background-color="#207BEF"
+                font-color="#fff"
+                value="Oval"
+                >
+              </a-gui-button>
+              <a-gui-button 
+                width="2.5" height="0.75"
+                hideobject="target:#cylinder"
+                hideslide="target:#page4"
+                showslide="target:#page4_"
+                font-family="/learnxr/font/Slackey.ttf"
+                font-size="0.3"
+                background-color="#A790C4"
+                font-color="#fff"
+                value="Circle"
+                >
+              </a-gui-button>
+            </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="page4_" position="0.000 -100.000 0.000" visible="false">
+            <a-gui-label
+              width="5" height="1.0"
+              value="The correct answer is: Cylinder"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.05 0"
+              position="0 1 0.5"
+              background-color="#22c897"
+              >
+            </a-gui-label>
+            <a-gui-flex-container
+              flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
+              opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+              position="0 -0.125 0" rotation="0 0 0"
+              >
+              <a-gui-button 
+                width="2.5" height="0.75"
+                hideobject="target:#cylinder"
+                showobject="target:#octahedron"
+                hideslide="target:#page4_"
+                showslide="target:#page5"
+                font-family="/learnxr/font/Slackey.ttf"
+                font-size="0.3"
+                background-color="#F68B1E"
+                font-color="#fff"
+                value="Next"
+                >
+              </a-gui-button>
+              </a-gui-button>
+            </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="page5" position="0.000 -100.000 0.000" visible="false">
+            <a-gui-label
+              width="5" height="1.0"
+              value="5. What is the name of this 3D Shape?"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.05 0"
+              position="0 1 0.5"
+              background-color="#A1469A"
+              >
+            </a-gui-label>
+            <a-gui-flex-container
+              flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
+              opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+              position="0 -0.125 0" rotation="0 0 0"
+              >
+              <a-gui-button 
+                width="2.5" height="0.75"
+                hideobject="target:#octahedron"
+                hideslide="target:#page5"
+                showslide="target:#page5_"
+                font-family="/learnxr/font/Slackey.ttf"
+                font-size="0.3"
+                background-color="#A6CE39"
+                font-color="#fff"
+                value="Triangle"
+                >
+              </a-gui-button>
+              <a-gui-button 
+                width="2.5" height="0.75"
+                hideobject="target:#octahedron"
+                hideslide="target:#page5"
+                showslide="target:#page5_"
+                font-family="/learnxr/font/Slackey.ttf"
+                font-size="0.3"
+                background-color="#EF465C"
+                font-color="#fff"
+                value="Prism"
+                >
+              </a-gui-button>
+              <a-gui-button 
+                width="2.5" height="0.75"
+                hideobject="target:#octahedron"
+                hideslide="target:#page5"
+                showslide="target:#page6"
+                font-family="/learnxr/font/Slackey.ttf"
+                font-size="0.3"
+                background-color="#FBD238"
+                font-color="#fff"
+                onClick="clickME()"
+                value="Octahedron"
+                >
+              </a-gui-button>
+            </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="page5_" position="0.000 -100.000 0.000" visible="false">
+            <a-gui-label
+              width="5" height="1.0"
+              value="The correct answer is: Octahedron"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.05 0"
+              position="0 1 0.5"
+              background-color="#22c897"
+              >
+            </a-gui-label>
+            <a-gui-flex-container
+              flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
+              opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+              position="0 -0.125 0" rotation="0 0 0"
+              >
+              <a-gui-button 
+                width="2.5" height="0.75"
+                hideslide="target:#page5_"
+                showslide="target:#page6"
+                font-family="/learnxr/font/Slackey.ttf"
+                font-size="0.3"
+                background-color="#F68B1E"
+                font-color="#fff"
+                value="Next"
+                >
+              </a-gui-button>
+            </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="page6" position="0.000 -100.000 0.000" visible="false">
+            <a-gui-label
+              width="2" height="2"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.05 0"
+              position="0 3.5 0.75"
+              material="src:#logo"
+              background-color="#fff"
+              >
+            </a-gui-label>
+
+          <a-gui-flex-container
+              flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
+              opacity="0.75" width="5.5" height="0.75" panel-color="#2D314C" panel-rounded="0.1"
+              position="0 2.5 0.5" rotation="0 0 0"
+              >
+            <a-gui-label
+              width="5.5" height="1.0"
+              value="Congratulations!"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.05 0"
+              position="0 0.5 0.5"
+              background-color="#A1469A"
+              >
+            </a-gui-label>
+          </a-gui-flex-container>
+
+          <a-gui-flex-container
+              flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+              opacity="0.75" width="6" height="4.25" panel-color="#2D314C" panel-rounded="0.1"
+              position="0 0.75 0" rotation="0 0 0"
+              >
+            <a-gui-label
+              width="5.5" height="1.0"
+              value="Lesson complete!"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.05 0"
+              position="0 -2.0 0.5"
+              rotation="0 0 2.25"
+              background-color="#F68B1E"
+              >
+            </a-gui-label>
+
+            <a-gui-label
+              width="5.5" height="1.0"
+              value="Thank you for playing"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.05 0"
+              position="0 -2.0 -5.5"
+              background-color="#22c897"
+              >
+            </a-gui-label>
+
+            <a-gui-label
+              width="2.25" height="0.35"
+              value="♥"
+              font-family="/learnxr/font/Slackey.ttf"
+              font-size="0.125"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.05 0"
+              position="0 -5.5 -5.5"
+              background-color="#EF465C"
+              >
+            </a-gui-label>
+          </a-gui-flex-container>
+        </a-entity> -->
+              <img src="/learnxr/img/Logo_Simple-04.png">
+      </a-entity>
+          
+      </a-entity> -->
+
+      <!-- Camera + cursor. -->
+      <a-entity id="cameraRig" position="0 1.6 0" rotation="0 0 0">
+        <a-camera look-controls wasd-controls position="0 0 0">
+          <a-gui-cursor id="cursor"
+            raycaster="objects: [gui-interactable]"
+            fuse="true" fuse-timeout="2000"
+            design="ring"
+            >
+          </a-gui-cursor>
+          <!-- /cursor -->
+        </a-camera>
+        <!-- /camera -->
+      </a-entity>
+
+      <script type="text/javascript">
+        var button = document.querySelector("button")
+
+          button.addEventListener("click", (e) => {
+            button.parentNode.style.display = "none"
+          })
+      </script>
+      <script type="text/javascript">
+            
+      window.changecamright = function() {
+        var changecamright = document.getElementById("cameraRig");
+        changecamright.setAttribute('rotation', '0 -68 0');
+      }  
+
+      window.changecamleft = function() {
+        var changecamleft = document.getElementById("cameraRig");
+        changecamleft.setAttribute('rotation', '0 70 0');
+      } 
+      </script>
+      
+    </a-scene>
+  </body>
+</html>
