@@ -1,0 +1,1314 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta name="theme-color" content="#2C3EA6" />
+    <!-- Primary Meta Tags -->
+    <title>Lesson 1 - Geometry Labs - Shape Recognition - Kids Learn N' Fun 2022</title>
+    <meta name="title" content="Geometry Labs">
+    <meta name="description" content="Geometry Labs — Show Off Your Math Skills by Conquering 3rd Grade Geometry!">
+    <meta name="keywords" content="beamport, xr, vr, ar, virtual, reality, beamport vr, beamport ar, beamport xr, virtual reality, virtual reality kenya, virtual reality africa, eduvr, learnxr, learnvr, learnar, learnxr africa, learnxr kenya, virtual reality kids, augmented reality kids ">
+    <meta name="author" content="Geometry Labs">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://beamport.net/learnxr/">
+    <meta property="og:title" content="Geometry Labs">
+    <meta property="og:description" content="Geometry Labs — Show Off Your Math Skills by Conquering 3rd Grade Geometry!">
+    <meta property="og:image" content="https://beamport.net/learnxr/img/geometry-labs.jpg">
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://beamport.net/learnxr/">
+    <meta property="twitter:title" content="Geometry Labs">
+    <meta property="twitter:description" content="Geometry Labs — Show Off Your Math Skills by Conquering 3rd Grade Geometry!">
+    <meta property="twitter:image" content="https://beamport.net/learnxr/img/geometry-labs.jpg">
+    <!-- CSS  -->
+    <link href="/learnxr/css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="/learnxr/img/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+    <link href="/learnxr/img/favicon.ico" rel="apple-touch-icon"/>
+    <!-- Aframe -->
+    <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="js/aframe-gui.js"></script>
+    <!-- <script src="js/gui-env.js"></script> -->
+    <script>
+      AFRAME.registerComponent('exit-ar-button', {
+        schema: {
+            element: {type: 'selector'}
+        },
+        init: function () {
+          this.data.element.addEventListener('click', ev => {
+              this.el.sceneEl.renderer.xr.getSession().end();
+          });
+        }
+      });
+    </script>
+    <script>
+      AFRAME.registerComponent('wireframe', {
+        dependencies: ['material'],
+        init: function () {
+          this.el.components.material.material.wireframe = true;
+        }
+      });
+
+      AFRAME.registerComponent("wireframe-", {
+        schema: {
+          color: { type: 'color', default: 'white'}
+        },
+
+          init() {
+            const baseGeometry = this.el.getObject3D('mesh').geometry
+            if (!baseGeometry) {
+                console.warn("wireframe-: no base geometry found")
+            };
+
+            const edges = new THREE.EdgesGeometry( baseGeometry );
+            const line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial( { color: this.data.color } ) );
+            this.el.object3D.add( line );
+
+            this.el.getObject3D('mesh').visible = false;
+          }
+      })
+    </script>
+    <script>
+      //Hide in AR
+      AFRAME.registerComponent('hide-in-ar-mode', {
+        init: function () {
+          this.el.sceneEl.addEventListener('enter-vr', (ev) => {
+          if (this.el.sceneEl.is('ar-mode')) {
+            this.el.setAttribute('visible', false);
+          }
+          });
+          this.el.sceneEl.addEventListener('exit-vr', (ev) => {
+          this.el.setAttribute('visible', true);
+          });
+        }
+      })
+
+      //Change Cursor State in AR
+      AFRAME.registerComponent('cursor-ar-mode', {
+        init: function () {
+          this.el.sceneEl.addEventListener('enter-vr', (ev) => {
+          if (this.el.sceneEl.is('ar-mode')) {
+            this.el.setAttribute('raycaster', 'objects: [gui-interactable]'); //new ar state
+            this.el.setAttribute('visible', true);
+          }
+          });
+          this.el.sceneEl.addEventListener('exit-vr', (ev) => {
+          this.el.setAttribute('raycaster', 'objects: [none]'); //original state
+          this.el.setAttribute('visible', false);
+          });
+        }
+      }) 
+
+      //Change Panel Position in AR
+      AFRAME.registerComponent('panel-in-ar', {
+        init: function () {
+          this.el.sceneEl.addEventListener('enter-vr', (ev) => {
+          if (this.el.sceneEl.is('ar-mode')) {
+            this.el.setAttribute('position', '0.0 3.5 -10.0'); //new ar position
+          }
+          });
+          this.el.sceneEl.addEventListener('exit-vr', (ev) => {
+          this.el.setAttribute('position', '0.0 1.5 -6.0'); //original position
+          });
+        }
+      })
+      
+      //Change Cube Position in AR
+      AFRAME.registerComponent('box-in-ar', {
+        init: function () {
+          this.el.sceneEl.addEventListener('enter-vr', (ev) => {
+          if (this.el.sceneEl.is('ar-mode')) {
+            this.el.setAttribute('position', '0.0 3.85 -4.85'); //new ar position
+          }
+          });
+          this.el.sceneEl.addEventListener('exit-vr', (ev) => {
+          this.el.setAttribute('position', '0.0 2.25 -3.0'); //original position
+          });
+        }
+      })
+      
+      //Change Sphere Position in AR
+      AFRAME.registerComponent('sphere-in-ar', {
+        init: function () {
+          this.el.sceneEl.addEventListener('enter-vr', (ev) => {
+          if (this.el.sceneEl.is('ar-mode')) {
+            this.el.setAttribute('position', '0.00 3.85 -4.85'); //new ar position
+          }
+          });
+          this.el.sceneEl.addEventListener('exit-vr', (ev) => {
+          this.el.setAttribute('position', '0.0 2.25 -3.0'); //original position
+          });
+        }
+      })
+      
+      //Change Cone Position in AR
+      AFRAME.registerComponent('cone-in-ar', {
+        init: function () {
+          this.el.sceneEl.addEventListener('enter-vr', (ev) => {
+          if (this.el.sceneEl.is('ar-mode')) {
+            this.el.setAttribute('position', '0.0 3.85 -4.85'); //new ar position
+          }
+          });
+          this.el.sceneEl.addEventListener('exit-vr', (ev) => {
+          this.el.setAttribute('position', '0.0 2.25 -3.0'); //original position
+          });
+        }
+      })
+      
+      //Change Cylinder Position in AR
+      AFRAME.registerComponent('cylinder-in-ar', {
+        init: function () {
+          this.el.sceneEl.addEventListener('enter-vr', (ev) => {
+          if (this.el.sceneEl.is('ar-mode')) {
+            this.el.setAttribute('position', '0.0 3.85 -4.85'); //new ar position
+          }
+          });
+          this.el.sceneEl.addEventListener('exit-vr', (ev) => {
+          this.el.setAttribute('position', '0.0 2.25 -3.0'); //original position
+          });
+        }
+      })
+      
+      //Change Octahedron Position in AR
+      AFRAME.registerComponent('octa-in-ar', {
+        init: function () {
+          this.el.sceneEl.addEventListener('enter-vr', (ev) => {
+          if (this.el.sceneEl.is('ar-mode')) {
+            this.el.setAttribute('position', '0.0 3.85 -4.85'); //new ar position
+          }
+          });
+          this.el.sceneEl.addEventListener('exit-vr', (ev) => {
+          this.el.setAttribute('position', '0.0 2.25 -3.0'); //original position
+          });
+        }
+      })
+      
+      // Simple Score Function
+      var clicks = 0;
+
+      function scorePoints() {
+        clicks += 10;
+        //document.getElementById("total-scores").innerHTML = clicks;
+        document.getElementById("scores").innerHTML = clicks;
+        document.getElementById("scores-in-xr").innerHTML = clicks;
+        console.log(
+        "%c Points Scored +10",
+        'background: #2C3EA8; color: #fff; font-size:250%; font-family: Slackey, sans-serif; display: block; padding:50px; padding-right: 50px;')
+      }
+
+      function scorePointsReset() {
+        clicks *= 0;
+        //document.getElementById("total-scores").innerHTML = clicks;
+        document.getElementById("scores").innerHTML = clicks;
+        document.getElementById("scores-in-xr").innerHTML = clicks;
+        console.log(
+        "%c Refreshed Game",
+        'background: #A6CE39; color: #fff; display: block; padding:5px; padding-right: 10px;')
+      }
+      
+      // Hide Object Function 
+      AFRAME.registerComponent('hideobject', {
+        schema: {
+          'target': {type: 'selector'},
+        },
+        init: function () {
+          var show=false;    
+          this.el.addEventListener("click",()=>{
+            if(show){
+              this.data.target.setAttribute("visible","true");
+              this.el.querySelector("a-gui-button").innerHTML="Hide Object";
+            }else{
+              this.data.target.setAttribute("visible","false");
+              this.el.querySelector("a-gui-button").innerHTML="Show Object";
+            }
+            show=!show;
+          });
+        }
+      });
+      
+      // Show Object Function
+      AFRAME.registerComponent('showobject', {
+        schema: {
+          'target': {type: 'selector'},
+        },
+        init: function () {
+          var show=false;    
+          this.el.addEventListener("click",()=>{
+            if(show){
+              this.data.target.setAttribute("visible","false");
+              this.el.querySelector("a-gui-button").innerHTML="Show Object";
+            }else{
+              this.data.target.setAttribute("visible","true");
+              this.el.querySelector("a-gui-button").innerHTML="Hide Object";
+            }
+            show=!show;
+          });
+        }
+      });
+      
+      // Hide Slide Function 
+      AFRAME.registerComponent('hidepanel', {
+        schema: {
+          'target': {type: 'selector'},
+        },
+        init: function () {
+          var show=false;    
+          this.el.addEventListener("click",()=>{
+            if(show){
+              this.data.target.setAttribute("visible","true");
+              this.data.target.setAttribute("position","0.000 -2.240 0.000");
+              this.el.querySelector("a-gui-button").innerHTML="Hide Slide";
+            }else{
+              this.data.target.setAttribute("visible","false");
+              this.data.target.setAttribute("position","javascript:void(0);");
+              this.el.querySelector("a-gui-button").innerHTML="Show Slide";
+            }
+            show=!show;
+          });
+        }
+      });
+      
+      // Show Slide Function
+      AFRAME.registerComponent('showpanel', {
+        schema: {
+          'target': {type: 'selector'},
+        },
+        init: function () {
+          var show=false;    
+          this.el.addEventListener("click",()=>{
+            if(show){
+              this.data.target.setAttribute("visible","false");
+              this.data.target.setAttribute("position","javascript:void(0);");
+              this.el.querySelector("a-gui-button").innerHTML="Show Slide";
+            }else{
+              this.data.target.setAttribute("visible","true");
+              this.data.target.setAttribute("position","0.000 -2.240 0.000");
+              this.el.querySelector("a-gui-button").innerHTML="Hide Slide";
+            }
+            show=!show;
+          });
+        }
+      });
+    </script>
+    <script>
+      function clicksound(){
+         var snd = new Audio('/learnxr/audio/pop.mp3')//wav is also supported
+         snd.play()//plays the sound
+      
+      }
+      function clicksound2(){
+         var snd = new Audio('/learnxr/audio/rapid.mp3')//wav is also supported
+         snd.play()//plays the sound
+      
+      }
+      function bckgrndmusic(){
+         var snd = new Audio('/learnxr/audio/bckgrnd.mp3')//wav is also supported
+         snd.play()//plays the sound
+         snd.loop = true;//loops the sound
+      }
+      function hoversound(){
+         var snd = new Audio('/learnxr/audio/drip.mp3')//wav is also supported
+         snd.play()//plays the sound
+      }
+      function hoversound2(){
+         var snd = new Audio('/learnxr/audio/spring-bong.mp3')//wav is also supported
+         snd.play()//plays the sound
+      }
+      function whatsthename(){
+         var snd = new Audio('/learnxr/audio/voice/what-is-the-name-of-this-3D-shape.mp3')//wav is also supported
+         snd.play()//plays the sound
+      }
+    </script>
+    <style>
+      ::selection {
+        background: #F68B1E;
+        color: #FFF;
+      }
+      ::-moz-selection {
+        background: #F68B1E;
+        color: #FFF;
+      }
+      @font-face {
+        font-family: Slackey;
+        src: url("assets/fonts/Slackey.ttf") format('truetype');
+        font-weight: 400;
+        font-style: normal
+      }
+      body {
+        font-family: Slackey, sans-serif;
+      }
+      #foreground {
+        width: 100%;
+        height: 100%;
+        display: block;
+        z-index: 999;
+        position: fixed;
+        background: #1877BE;
+      }
+      .hsk2020-foreground-wrapper {
+        position: relative;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
+        text-align: center
+      }
+      .scores {
+        background-color: #C13043;
+        padding: 5px;
+        font-family: 'Slackey', sans-serif;
+        text-align: center;
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+      }
+      #scoreboard {
+        position: absolute;
+        left: 25px;
+        top: 40px;
+        border-radius: 20px;
+        background-color: #EF465C;
+        color: white;
+        border: 3px solid #FFF;
+        padding: 8px 10px;
+        font-weight: bold;
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+      }
+      .scoreboard {
+        z-index: 10;
+        position: absolute;
+        left: 20px;
+        top: 20px;
+        border-radius: 20px;
+        background-color: #EF465C;
+        color: white;
+        border: 3px solid #FFF;
+        padding: 8px 10px;
+        font-weight: bold;
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+      }
+      .back {
+          z-index: 10;
+          text-align: center;
+          position: absolute;
+          left: 22px;
+          top: 140px;
+          border-radius: 16px;
+          background-color: #A6CE39;
+          color: white;
+          border: 3px solid #FFF;
+          padding-top: 10px;
+          padding-bottom: 5px;
+          font-weight: bold;
+          font-family: 'Slackey', sans-serif;
+      }
+      .ar-vr {
+          position: absolute;
+          right: 30px;
+          bottom: 40px;
+          border-radius: 20px;
+          background-color: #71528E;
+          color: white;
+          z-index: 10;
+          border: 3px solid #FFF;
+          padding: 12px 16px;
+          font-weight: bold;
+          font-family: 'Slackey', sans-serif; 
+          cursor: pointer;
+          -webkit-user-select: none; /* Safari */
+          -ms-user-select: none; /* IE 10 and IE 11 */
+          user-select: none; /* Standard syntax */
+      }
+      /* By default, hide the DOM Overlay element. */
+      #overlay {
+          display: none;
+      }
+      /* Show the DOM Overlay element while active (:xr-overlay pseudoclass) */
+      #overlay:xr-overlay {
+          display: initial;
+      }
+      #exit-ar {
+          position: absolute;
+          left: 25px;
+          bottom: 40px;
+          border-radius: 20px;
+          background-color: #71528E;
+          color: white;
+          border: 3px solid #FFF;
+          padding: 12px 16px;
+          font-weight: bold;
+          -webkit-user-select: none; /* Safari */
+          -ms-user-select: none; /* IE 10 and IE 11 */
+          user-select: none; /* Standard syntax */
+      }
+    </style>
+  </head>
+  <body>
+    <div id="foreground" class="hsk2020-foreground-wrapper">
+      <div class="vtl-body">
+        <div class="vtl-header">
+          <br><br>
+            <br><br>
+              <h1 class="vtl-page-title">Are You Ready?</h1>
+                <div class="vtl-lp">
+                  <br>
+                </div>
+        </div>
+      </div>
+      <button class="hsk2020-button-2 intro w-button" onmouseenter="hoversound()" onclick="clicksound(); bckgrndmusic(); setTimeout(whatsthename, 3000)"  style="transform: scale(0.65);">
+        Yes Let's Go!
+      </button>
+      </div>
+    <!-- Score & Exit AR Button -->
+    <span class="scoreboard">Score<br>
+      <h2 class="scores" id="scores">
+          0
+      </h2>
+    </span>
+    <button class="back" onclick="history.go(-1)">
+      <?xml version="1.0" encoding="utf-8"?>
+      <svg width="24px" height="16.398193px" viewBox="0 0 24 16.398193" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+        <path d="M24 3.61218C24 6.50293 24 9.39343 24 12.2841C23.8564 12.4816 23.6611 12.5909 23.4141 12.6122C19.3008 12.0562 15.1836 11.5327 11.0625 11.0419C11.4082 12.6201 11.7207 14.2061 12 15.7997C11.9883 16.2566 11.7539 16.4519 11.2969 16.3856C7.71191 13.9135 4.13379 11.4291 0.5625 8.9325C0.34375 8.80029 0.15625 8.63623 0 8.44031C0 8.28418 0 8.12781 0 7.97156C0.116211 7.81677 0.256836 7.68384 0.421875 7.57312C4.03125 5.0575 7.64063 2.54199 11.25 0.0262451C11.6855 -0.0690918 11.9512 0.0949707 12.0469 0.518433C11.7285 2.11182 11.416 3.70557 11.1094 5.29968C15.1279 4.65601 19.1436 3.99194 23.1563 3.3075C23.5215 3.20068 23.8027 3.30212 24 3.61218L24 3.61218Z" id="Shape-Copy-3" fill="#FFFFFF" fill-opacity="0.991" fill-rule="evenodd" stroke="none" />
+      </svg>
+    </button>
+    <div id="overlay">
+      <span id="scoreboard">Score<br>
+        <h2 class="scores" id="scores-in-xr">
+          0
+        </h2>
+      </span>
+      <button id="exit-ar">Exit AR</button>
+    </div>
+    <!-- Main Scene -->
+    <a-scene 
+        gui-env  
+        webxr="optionalFeatures: dom-overlay; overlayElement: #overlay"
+        vr-mode-ui="enterVRButton: #myEnterVRButton; enterARButton: #myEnterARButton"
+        loading-screen="dotsColor: #FFF; backgroundColor: #23C897">
+      <a id="myEnterVRButton" style="display: none;" class="ar-vr">VR mode</a>
+      <a id="myEnterARButton" class="ar-vr">Enable AR</a>
+      <a-entity exit-ar-button="element: #exit-ar"></a-entity>
+      <!-- Textures -->
+      <a-assets>
+        <a-asset-item id="Slackey" src="assets/fonts/Slackey.ttf"></a-asset-item>
+        <img id="logo" src="/learnxr/img/Logo_Simple-04.png">
+      </a-assets>
+      <div style="font-family: Slackey;"></div>
+      <a-sky color="#59ADFF" renderer="colorManagement: true" hide-in-ar-mode>
+      </a-sky>
+      <!-- 0008FF -->
+      <!-- Shapes -->
+      <a-box color="#FA003F" scale="0.85 0.85 0.85" position="0.0 2.25 -3.0" id="box" visible="true" animation="property: rotation; from: 0 0 0; to: 0 360 180; dur: 3000; loop: true" box-in-ar></a-box>
+      <a-sphere color="#FF4400" scale="0.65 0.65 0.65" position="0.0 2.25 -3.0" id="sphere" visible="false" animation="property: rotation;  to: 0 2.25 -1.5; dur: 1000; loop: true;" sphere-in-ar></a-sphere>
+      <a-cone color="#3EC300" scale="0.75 1.0 0.75" position="0.0 2.25 -3.0" id="cone" visible="false" animation="property: rotation; to: 360 0 0; loop: true; dur: 7500" cone-in-ar></a-cone>
+      <a-cylinder color="#0008FF" scale="0.55 1.0 0.55" position="0.0 2.25 -3.0" id="cylinder" visible="false" animation="property: rotation; to: 360 0 0; loop: true; dur: 5000" cylinder-in-ar></a-cylinder>
+      <a-octahedron color="#FA003F" scale="0.85 0.85 0.85" position="0.0 2.25 -3.0" id="octahedron" visible="false" animation="property: rotation; to: 0 360 0; loop: true; dur: 5000" octa-in-ar></a-octahedron>
+      <!-- <a-entity position="0 -2.65 0" environment="preset: forest; horizonColor: #69ADFF; skyColor: #6060f7;  lighting: none; shadow: none; lightPosition: 0 2.15 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 100000" hide-in-ar-mode></a-entity> -->
+      <!-- Light & Shadow -->
+      <a-entity light="type: ambient; intensity: 0.25;"></a-entity>
+      <a-light type="directional"
+        light="castShadow: true;
+        shadowMapHeight: 1024;
+        shadowMapWidth: 1024;
+        shadowCameraLeft: -7;
+        shadowCameraRight: 5;
+        shadowCameraBottom: -5;
+        shadowCameraTop: 5;"
+        id="light"
+        target="#box;#sphere;#cone;#cylinder;#octahedron;"
+        position="0 2.15 3">
+      </a-light>
+      <!-- Main Board -->
+      <a-entity panel-in-ar position="0.00 1.5 -6.0" rotation="0 0 0">
+        <a-entity id="page1" position="0.000 -2.240 0.000" visible="true">
+          <a-gui-label
+            width="5" height="1.0"
+            value="1. What is the name of this 3D Shape?"
+            font-family="/learnxr/font/Slackey.ttf"
+            font-size="0.35"
+            font-color="#fff"
+            line-height="0.8"
+            letter-spacing="0"
+            margin="0 0 0.05 0"
+            position="0 1.2 0.5"
+            border="white"
+            panel-rounded="0.1"
+            background-color="#a1469a"
+            >
+          </a-gui-label>
+          <a-gui-flex-container
+            flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.75" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 0.125 0" rotation="0 0 0"
+            >
+          </a-gui-flex-container>
+          <a-gui-flex-container
+            flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
+            position="0 -0.15 0" rotation="0 0 0"
+            >
+            <a-gui-button 
+              width="2.5" height="0.75"
+              hideobject="target:#box"
+              hidepanel="target:#page1"
+              showpanel="target:#page1_"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#2568EF"
+              font-color="#fff"
+              onclick="clicksound();"
+              value="Square"
+              >
+            </a-gui-button>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              hidepanel="target:#page1"
+              showpanel="target:#page1__"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#F68B1E"
+              font-color="#fff"
+              onclick="clicksound(); scorePoints();"
+              value="Cube"
+              >
+            </a-gui-button>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              hideobject="target:#box"
+              hidepanel="target:#page1"
+              showpanel="target:#page1_"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#A6CE39"
+              font-color="#fff"
+              onclick="clicksound();"
+              value="Rectangle"
+              >
+            </a-gui-button>
+          </a-gui-flex-container>
+          <a-gui-flex-container
+            flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
+            position="0 -1.15 0" rotation="0 0 0"
+            >
+          </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="page1__" position="javascript:void(0);" visible="false">
+          <a-gui-flex-container
+            flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.65" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 -0.125 0" rotation="0 0 0"
+            >
+            <a-gui-label
+              width="5" height="1.0"
+              value="Correct!!!"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 1.45 0"
+              position="0 1 0.5"
+              background-color="#A1469A"
+              >
+            </a-gui-label>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              hideobject="target:#box"
+              showobject="target:#sphere"
+              hidepanel="target:#page1__"
+              showpanel="target:#page2"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              margin="0 0 1.0 0"
+              background-color="#EF465C"
+              font-color="#fff"
+              onclick="clicksound(); setTimeout(whatsthename, 1000);"
+              value="Next"
+              >
+            </a-gui-button>
+          </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="page1_" position="javascript:void(0);" visible="false">
+          <a-gui-flex-container
+            flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 -0.125 0" rotation="0 0 0"
+            >
+            <a-gui-label
+              width="5" height="1.0"
+              value="The correct answer is: Cube"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 1.45 0"
+              position="0 1 0.5"
+              background-color="#22c897"
+              >
+            </a-gui-label>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              showobject="target:#sphere"
+              hidepanel="target:#page1_"
+              showpanel="target:#page2"
+              margin="0 0 1.05 0"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#F68B1E"
+              font-color="#fff"
+              onclick="clicksound(); setTimeout(whatsthename, 1000);"
+              value="Next"
+              >
+            </a-gui-button>
+          </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="page2" position="javascript:void(0);" visible="false">
+          <a-gui-label
+            width="5" height="1.0"
+            value="2. What is the name of this 3D Shape?"
+            font-family="assets/fonts/Slackey.ttf"
+            font-size="0.35"
+            font-color="#fff"
+            line-height="0.8"
+            letter-spacing="0"
+            margin="0 0 0.05 0"
+            position="0 1.2 0.5"
+            background-color="#f68b1f"
+            >
+          </a-gui-label>
+          <a-gui-flex-container
+            flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 -0.125 0" rotation="0 0 0"
+            >
+            <a-gui-button 
+              width="2.5" height="0.75"
+              hideobject="target:#sphere"
+              hidepanel="target:#page2"
+              showpanel="target:#page2_"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#EF465C"
+              font-color="#fff"
+              onclick="clicksound();"
+              value="Circle"
+              >
+            </a-gui-button>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              hideobject="target:#sphere"
+              hidepanel="target:#page2"
+              showpanel="target:#page2_"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#A6CE39"
+              font-color="#fff"
+              onclick="clicksound();"
+              value="Cone"
+              >
+            </a-gui-button>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              hidepanel="target:#page2"
+              showpanel="target:#page2__"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#207BEF"
+              font-color="#fff"
+              onclick="clicksound(); scorePoints();"
+              value="Sphere"
+              >
+            </a-gui-button>
+          </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="page2__" position="javascript:void(0);" visible="false">
+          <a-gui-flex-container
+            flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 -0.125 0" rotation="0 0 0"
+            >
+            <a-gui-label
+              width="5" height="1.0"
+              value="Good Job!"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 1.45 0"
+              position="0 1 0.5"
+              background-color="#A1469A"
+              >
+            </a-gui-label>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              hideobject="target:#sphere"
+              showobject="target:#cone"
+              hidepanel="target:#page2__"
+              showpanel="target:#page3-"
+              margin="0 0 1.0 0"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#EF465C"
+              font-color="#fff"
+              onclick="clicksound(); setTimeout(whatsthename, 1000);"
+              value="Next"
+              >
+            </a-gui-button>
+          </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="page2_" position="javascript:void(0);" visible="false">
+          <a-gui-flex-container
+            flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 -0.125 0" rotation="0 0 0"
+            >
+            <a-gui-label
+              width="5" height="1.0"
+              value="The correct answer is: Sphere"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 1.45 0"
+              position="0 1 0.5"
+              background-color="#22c897"
+              >
+            </a-gui-label>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              showobject="target:#cone"
+              hidepanel="target:#page2_"
+              showpanel="target:#page3-"
+              margin="0 0 1.05 0"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#F68B1E"
+              font-color="#fff"
+              onclick="clicksound(); setTimeout(whatsthename, 1000);"
+              value="Next"
+              >
+            </a-gui-button>
+          </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="page3-" position="javascript:void(0);" visible="false">
+          <a-gui-label
+            width="5" height="1.0"
+            value="3. What is the name of this 3D Shape?"
+            font-family="assets/fonts/Slackey.ttf"
+            font-size="0.35"
+            font-color="#fff"
+            line-height="0.8"
+            letter-spacing="0"
+            margin="0 0 0.05 0"
+            position="0 1.2 0.5"
+            background-color="#3968E9"
+            >
+          </a-gui-label>
+          <a-gui-flex-container
+            flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 -0.125 0" rotation="0 0 0"
+            >
+            <a-gui-button 
+              width="2.5" height="0.75"
+              hidepanel="target:#page3-"
+              showpanel="target:#page3__"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#EF465C"
+              font-color="#fff"
+              onclick="clicksound(); scorePoints();"
+              value="Cone"
+              >
+            </a-gui-button>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              hideobject="target:#cone"
+              hidepanel="target:#page3-"
+              showpanel="target:#page3_"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#FBD238"
+              font-color="#fff"
+              onclick="clicksound();"
+              value="Pyramid"
+              >
+            </a-gui-button>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              hideobject="target:#cone"
+              hidepanel="target:#page3-"
+              showpanel="target:#page3_"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#A790C4"
+              font-color="#fff"
+              onclick="clicksound();"
+              value="Triangle"
+              >
+            </a-gui-button>
+          </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="page3__" position="javascript:void(0);" visible="false">
+          <a-gui-flex-container
+            flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 -0.125 0" rotation="0 0 0"
+            >
+            <a-gui-label
+              width="5" height="1.0"
+              value="Nice!!"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 1.45 0"
+              position="0 1 0.5"
+              background-color="#A1469A"
+              >
+            </a-gui-label>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              hideobject="target:#cone"
+              showobject="target:#cylinder"
+              hidepanel="target:#page3__"
+              showpanel="target:#page4"
+              margin="0 0 1.05 0"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#EF465C"
+              font-color="#fff"
+              onclick="clicksound(); setTimeout(whatsthename, 1000);"
+              value="Next"
+              >
+            </a-gui-button>
+          </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="page3_" position="javascript:void(0);" visible="false">
+          <a-gui-flex-container
+            flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 -0.125 0" rotation="0 0 0"
+            >
+            <a-gui-label
+              width="5" height="1.0"
+              value="The correct answer is: Cone"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 1.45 0"
+              position="0 1 0.5"
+              background-color="#22c897"
+              >
+            </a-gui-label>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              showobject="target:#cylinder"
+              hidepanel="target:#page3_"
+              showpanel="target:#page4"
+              margin="0 0 1.05 0"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#F68B1E"
+              font-color="#fff"
+              onclick="clicksound(); setTimeout(whatsthename, 1000);"
+              value="Next"
+              >
+            </a-gui-button>
+          </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="page4" position="javascript:void(0);" visible="false">
+          <a-gui-label
+            width="5" height="1.0"
+            value="4. What is the name of this 3D Shape?"
+            font-family="assets/fonts/Slackey.ttf"
+            font-size="0.35"
+            font-color="#fff"
+            line-height="0.8"
+            letter-spacing="0"
+            margin="0 0 0.05 0"
+            position="0 1.2 0.5"
+            background-color="#EF465C"
+            >
+          </a-gui-label>
+          <a-gui-flex-container
+            flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 -0.125 0" rotation="0 0 0"
+            >
+            <a-gui-button 
+              width="2.5" height="0.75"
+              hidepanel="target:#page4"
+              showpanel="target:#page4__"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#F27CA3"
+              font-color="#fff"
+              onclick="clicksound(); scorePoints();"
+              value="Cylinder"
+              >
+            </a-gui-button>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              hideobject="target:#cylinder"
+              hidepanel="target:#page4"
+              showpanel="target:#page4_"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#207BEF"
+              font-color="#fff"
+              onclick="clicksound();"
+              value="Oval"
+              >
+            </a-gui-button>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              hideobject="target:#cylinder"
+              hidepanel="target:#page4"
+              showpanel="target:#page4_"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#A790C4"
+              font-color="#fff"
+              onclick="clicksound();"
+              value="Circle"
+              >
+            </a-gui-button>
+          </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="page4__" position="javascript:void(0);" visible="false">
+          <a-gui-flex-container
+            flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 -0.125 0" rotation="0 0 0"
+            >
+            <a-gui-label
+              width="5" height="1.0"
+              value="Very Good!"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 1.45 0"
+              position="0 1 0.5"
+              background-color="#22c897"
+              >
+            </a-gui-label>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              hideobject="target:#cylinder"
+              showobject="target:#octahedron"
+              hidepanel="target:#page4__"
+              showpanel="target:#page5"
+              margin="0 0 1.05 0"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#F68B1E"
+              font-color="#fff"
+              onclick="clicksound(); setTimeout(whatsthename, 1000);"
+              value="Next"
+              >
+            </a-gui-button>
+            </a-gui-button>
+          </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="page4_" position="javascript:void(0);" visible="false">
+          <a-gui-flex-container
+            flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 -0.125 0" rotation="0 0 0"
+            >
+            <a-gui-label
+              width="5" height="1.0"
+              value="The correct answer is: Cylinder"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 1.45 0"
+              position="0 1 0.5"
+              background-color="#22c897"
+              >
+            </a-gui-label>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              showobject="target:#octahedron"
+              hidepanel="target:#page4_"
+              showpanel="target:#page5"
+              margin="0 0 1.05 0"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#F68B1E"
+              font-color="#fff"
+              onclick="clicksound(); setTimeout(whatsthename, 1000);"
+              value="Next"
+              >
+            </a-gui-button>
+            </a-gui-button>
+          </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="page5" position="javascript:void(0);" visible="false">
+          <a-gui-label
+            width="5" height="1.0"
+            value="5. What is the name of this 3D Shape?"
+            font-family="assets/fonts/Slackey.ttf"
+            font-size="0.35"
+            font-color="#fff"
+            line-height="0.8"
+            letter-spacing="0"
+            margin="0 0 0.05 0"
+            position="0 1 0.5"
+            background-color="#A1469A"
+            >
+          </a-gui-label>
+          <a-gui-flex-container
+            flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 -0.125 0" rotation="0 0 0"
+            >
+            <a-gui-button 
+              width="2.5" height="0.75"
+              hideobject="target:#octahedron"
+              hidepanel="target:#page5"
+              showpanel="target:#page5_"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#A6CE39"
+              font-color="#fff"
+              onclick="clicksound();"
+              value="Triangle"
+              >
+            </a-gui-button>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              hideobject="target:#octahedron"
+              hidepanel="target:#page5"
+              showpanel="target:#page5_"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#EF465C"
+              font-color="#fff"
+              onclick="clicksound();"
+              value="Prism"
+              >
+            </a-gui-button>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              hidepanel="target:#page5"
+              showpanel="target:#page5__"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#FBD238"
+              font-color="#fff"
+              onclick="clicksound(); scorePoints();"
+              value="Octahedron"
+              >
+            </a-gui-button>
+          </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="page5__" position="javascript:void(0);" visible="false">
+          <a-gui-flex-container
+            flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 -0.125 0" rotation="0 0 0"
+            >
+            <a-gui-label
+              width="5" height="1.0"
+              value="Well Done!"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 1.45 0"
+              position="0 1 0.5"
+              background-color="#3968E9"
+              >
+            </a-gui-label>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              hideobject="target:#octahedron"
+              hidepanel="target:#page5__"
+              showpanel="target:#page6"
+              margin="0 0 1.05 0"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#A1469A"
+              font-color="#fff"
+              onclick="clicksound();"
+              value="Next"
+              >
+            </a-gui-button>
+            </a-gui-button>
+          </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="page5_" position="javascript:void(0);" visible="false">
+          <a-gui-flex-container
+            flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6.25" height="2.5" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 -0.125 0" rotation="0 0 0"
+            >
+            <a-gui-label
+              width="5" height="1.0"
+              value="The correct answer is: Octahedron"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 1.45 0"
+              position="0 1 0.5"
+              background-color="#22c897"
+              >
+            </a-gui-label>
+            <a-gui-button 
+              width="2.5" height="0.75"
+              hidepanel="target:#page5_"
+              showpanel="target:#page6"
+              margin="0 0 1.05 0"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.3"
+              background-color="#F68B1E"
+              font-color="#fff"
+              onclick="clicksound();"
+              value="Next"
+              >
+            </a-gui-button>
+          </a-gui-flex-container>
+        </a-entity>
+        <a-entity id="page6" position="javascript:void(0);" visible="false">
+          <a-gui-label
+            width="2" height="2"
+            font-family="assets/fonts/Slackey.ttf"
+            font-size="0.35"
+            font-color="#fff"
+            line-height="0.8"
+            letter-spacing="0"
+            margin="0 0 0.05 0"
+            position="0 3.5 0.75"
+            material="src:#logo"
+            background-color="#fff"
+            >
+          </a-gui-label>
+          <a-gui-flex-container
+            flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="5.5" height="0.75" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 2.5 0.5" rotation="0 0 0"
+            >
+            <a-gui-label
+              width="5.5" height="1.0"
+              value="Congratulations!"
+              font-family="assets/fonts/Slackey.ttf"
+              font-size="0.35"
+              font-color="#fff"
+              line-height="0.8"
+              letter-spacing="0"
+              margin="0 0 0.05 0"
+              position="0 0.5 0.5"
+              background-color="#A1469A"
+              >
+            </a-gui-label>
+          </a-gui-flex-container>
+          <a-gui-flex-container
+            flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+            opacity="0.75" width="6" height="6" panel-color="#2D314C" panel-rounded="0.1"
+            position="0 0.5 0" rotation="0 0 0"
+            >
+          </a-gui-flex-container>
+          <a-gui-label
+            width="5.0" height="1.0"
+            value="Lesson complete!"
+            font-family="assets/fonts/Slackey.ttf"
+            font-size="0.325"
+            font-color="#fff"
+            line-height="0.8"
+            letter-spacing="0"
+            margin="0 0 0.05 0"
+            position="0 1.5 0.5"
+            rotation="0 0 2.25"
+            background-color="#F68B1E"
+            >
+          </a-gui-label>
+          <a-gui-label
+            width="5.0" height="1.0"
+            value="Thank you for playing"
+            font-family="assets/fonts/Slackey.ttf"
+            font-size="0.325"
+            font-color="#fff"
+            line-height="0.8"
+            letter-spacing="0"
+            margin="0 0 0.45 0"
+            position="0 0.5 0.65"
+            background-color="#22c897"
+            >
+          </a-gui-label>
+          <a-gui-button 
+            width="2.25" height="0.75"
+            hidepanel="target:#page6"
+            showpanel="target:#page1"
+            showobject="target:#box"
+            margin="0 0 0.75 0"
+            position="0 -1.95 0"
+            font-family="assets/fonts/Slackey.ttf"
+            font-size="0.25"
+            background-color="#EF465C"
+            font-color="#fff"
+            onclick="clicksound(); scorePointsReset(); setTimeout(whatsthename, 1000);"
+            value="Play Again"
+            >
+          </a-gui-button>
+        </a-entity>
+        <img src="/learnxr/img/Logo_Simple-04.png">
+      </a-entity>
+      <!-- Mouse cursor so we can click on the scene with mouse or touch. -->
+      <a-entity id="mouseCursor" cursor="rayOrigin: mouse" raycaster="objects: [gui-interactable]"></a-entity>
+      <a-entity id="leftHand" laser-controls="hand: left" raycaster="objects: [gui-interactable]"></a-entity>
+      <a-entity id="rightHand" laser-controls="hand: right" raycaster="objects: [gui-interactable]"></a-entity>
+      <!-- Camera + cursor. -->
+      <a-entity id="cameraRig" position="0 1.6 0">
+        <a-camera look-controls wasd-controls position="0 0 0">
+          <a-gui-cursor 
+            id="cursor" cursor-ar-mode
+            raycaster="objects: [none]"
+            fuse="true" fuse-timeout="2000"
+            design="ring" visible="false"
+            >
+          </a-gui-cursor>
+          <!-- /cursor -->
+        </a-camera>
+        <!-- /camera -->
+      </a-entity>
+      <script type="text/javascript">
+        var button = document.querySelector("button")
+          
+          button.addEventListener("click", (e) => {
+            button.parentNode.style.display = "none"
+          })
+      </script>
+    </a-scene>
+  </body>
+</html>
